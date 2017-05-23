@@ -2,14 +2,14 @@ package com.websystique.springmvc.dao;
 
 import java.util.List;
 
-import com.websystique.springmvc.model.UserProfile;
+import com.websystique.springmvc.model.Profile;
 
 
 public interface UserProfileDao {
 
-	List<UserProfile> findAll();
+	List<Profile> findAll();
 	
-	UserProfile findByType(String type);
+	Profile findByType(String type);
 	
-	UserProfile findById(int id);
+	Profile findById(int id);
 }

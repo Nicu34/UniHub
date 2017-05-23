@@ -21,7 +21,7 @@
 			<form:input type="hidden" path="id" id="id"/>
 			
 			<div class="row">
-				<div class="form-group col-md-12">
+				<div class="form-schoolGroup col-md-12">
 					<label class="col-md-3 control-lable" for="firstName">First Name</label>
 					<div class="col-md-7">
 						<form:input type="text" path="firstName" id="firstName" class="form-control input-sm"/>
@@ -33,7 +33,7 @@
 			</div>
 	
 			<div class="row">
-				<div class="form-group col-md-12">
+				<div class="form-schoolGroup col-md-12">
 					<label class="col-md-3 control-lable" for="lastName">Last Name</label>
 					<div class="col-md-7">
 						<form:input type="text" path="lastName" id="lastName" class="form-control input-sm" />
@@ -45,7 +45,7 @@
 			</div>
 	
 			<div class="row">
-				<div class="form-group col-md-12">
+				<div class="form-schoolGroup col-md-12">
 					<label class="col-md-3 control-lable" for="ssoId">SSO ID</label>
 					<div class="col-md-7">
 						<c:choose>
@@ -64,7 +64,7 @@
 			</div>
 	
 			<div class="row">
-				<div class="form-group col-md-12">
+				<div class="form-schoolGroup col-md-12">
 					<label class="col-md-3 control-lable" for="password">Password</label>
 					<div class="col-md-7">
 						<form:input type="password" path="password" id="password" class="form-control input-sm" />
@@ -76,7 +76,7 @@
 			</div>
 	
 			<div class="row">
-				<div class="form-group col-md-12">
+				<div class="form-schoolGroup col-md-12">
 					<label class="col-md-3 control-lable" for="email">Email</label>
 					<div class="col-md-7">
 						<form:input type="text" path="email" id="email" class="form-control input-sm" />
@@ -88,7 +88,7 @@
 			</div>
 
 			<div class="row">
-				<div class="form-group col-md-12">
+				<div class="form-schoolGroup col-md-12">
 					<label class="col-md-3 control-lable" for="phone">Phone number</label>
 					<div class="col-md-7">
 						<form:input type="text" path="phone" id="phone" class="form-control input-sm" />

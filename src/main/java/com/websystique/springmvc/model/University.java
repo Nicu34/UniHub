@@ -8,7 +8,6 @@ import java.util.Set;
  * Created by nicu on 5/20/2017.
  */
 @Entity
-@Table(name = "University")
 public class University {
 
     @Id
@@ -32,7 +31,7 @@ public class University {
 
     @NotNull
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<StudyYears> studyYears;
+    private Set<StudyYear> studyYears;
 
     public Integer getId() {
         return id;
@@ -82,11 +81,11 @@ public class University {
         this.phone = phone;
     }
 
-    public Set<StudyYears> getStudyYears() {
+    public Set<StudyYear> getStudyYears() {
         return studyYears;
     }
 
-    public void setStudyYears(Set<StudyYears> studyYears) {
+    public void setStudyYears(Set<StudyYear> studyYears) {
         this.studyYears = studyYears;
     }
 }

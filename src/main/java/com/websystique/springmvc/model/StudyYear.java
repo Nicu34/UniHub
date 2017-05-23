@@ -7,22 +7,20 @@ import javax.validation.constraints.NotNull;
  * Created by nicu on 5/20/2017.
  */
 @Entity
-@Table(name = "STUDY_YEARS")
-public class StudyYears {
+public class StudyYear {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotNull
-    @Column
     private Integer year;
 
-    public StudyYears(Integer year) {
+    public StudyYear(Integer year) {
         this.year = year;
     }
 
-    public StudyYears() {
+    public StudyYear() {
     }
 
     public Integer getYear() {

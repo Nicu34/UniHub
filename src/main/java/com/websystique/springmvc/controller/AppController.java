@@ -2,7 +2,7 @@ package com.websystique.springmvc.controller;
 
 import com.websystique.springmvc.model.University;
 import com.websystique.springmvc.model.User;
-import com.websystique.springmvc.model.UserProfile;
+import com.websystique.springmvc.model.Profile;
 import com.websystique.springmvc.service.UniversityService;
 import com.websystique.springmvc.service.UserProfileService;
 import com.websystique.springmvc.service.UserService;
@@ -157,10 +157,10 @@ public class AppController {
 	
 
 	/**
-	 * This method will provide UserProfile list to views
+	 * This method will provide Profile list to views
 	 */
 	@ModelAttribute("roles")
-	public List<UserProfile> initializeProfiles() {
+	public List<Profile> initializeProfiles() {
 		return userProfileService.findAll();
 	}
 	

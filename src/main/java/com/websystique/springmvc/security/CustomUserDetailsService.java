@@ -1,7 +1,7 @@
 package com.websystique.springmvc.security;
 
 import com.websystique.springmvc.model.User;
-import com.websystique.springmvc.model.UserProfile;
+import com.websystique.springmvc.model.Profile;
 import com.websystique.springmvc.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +43,9 @@ public class CustomUserDetailsService implements UserDetailsService{
 	private List<GrantedAuthority> getGrantedAuthorities(User user){
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		
-		for(UserProfile userProfile : user.getUserProfiles()){
-			logger.info("UserProfile : {}", userProfile);
-			authorities.add(new SimpleGrantedAuthority("ROLE_"+userProfile.getType()));
+		for(Profile profile : user.getProfiles()){
+			logger.info("Profile : {}", profile);
+			authorities.add(new SimpleGrantedAuthority("ROLE_"+ profile.getType()));
 		}
 		logger.info("authorities : {}", authorities);
 		return authorities;

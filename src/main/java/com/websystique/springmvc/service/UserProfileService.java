@@ -2,15 +2,15 @@ package com.websystique.springmvc.service;
 
 import java.util.List;
 
-import com.websystique.springmvc.model.UserProfile;
+import com.websystique.springmvc.model.Profile;
 
 
 public interface UserProfileService {
 
-	UserProfile findById(int id);
+	Profile findById(int id);
 
-	UserProfile findByType(String type);
+	Profile findByType(String type);
 	
-	List<UserProfile> findAll();
+	List<Profile> findAll();
 	
 }

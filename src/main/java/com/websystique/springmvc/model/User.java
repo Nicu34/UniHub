@@ -9,41 +9,40 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="APP_USER")
 public class User implements Serializable{
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
 	@NotEmpty
-	@Column(name="SSO_ID", unique=true, nullable=false)
+	@Column(unique=true, nullable=false)
 	private String ssoId;
 	
 	@NotEmpty
-	@Column(name="PASSWORD", nullable=false)
+	@Column(nullable=false)
 	private String password;
 		
 	@NotEmpty
-	@Column(name="FIRST_NAME", nullable=false)
+	@Column(nullable=false)
 	private String firstName;
 
 	@NotEmpty
-	@Column(name="LAST_NAME", nullable=false)
+	@Column(nullable=false)
 	private String lastName;
 
 	@NotEmpty
-	@Column(name="EMAIL", nullable=false)
+	@Column(nullable=false)
 	private String email;
 
 	@NotEmpty
-	@Column(name="phone", nullable=false)
+	@Column(nullable=false)
 	private String phone;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "APP_USER_USER_PROFILE", 
-             joinColumns = { @JoinColumn(name = "USER_ID") }, 
-             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-	private Set<UserProfile> userProfiles = new HashSet<>();
+	@JoinTable(name = "UserProfile",
+             joinColumns = { @JoinColumn(name = "user_id") },
+             inverseJoinColumns = { @JoinColumn(name = "profile_id") })
+	private Set<Profile> profiles = new HashSet<>();
 
 	@NotNull
 	@Transient
@@ -98,12 +97,12 @@ public class User implements Serializable{
 		this.email = email;
 	}
 
-	public Set<UserProfile> getUserProfiles() {
-		return userProfiles;
+	public Set<Profile> getProfiles() {
+		return profiles;
 	}
 
-	public void setUserProfiles(Set<UserProfile> userProfiles) {
-		this.userProfiles = userProfiles;
+	public void setProfiles(Set<Profile> profiles) {
+		this.profiles = profiles;
 	}
 
 	@Override

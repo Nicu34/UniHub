@@ -2,33 +2,31 @@ package com.websystique.springmvc.dao;
 
 import java.util.List;
 
+import com.websystique.springmvc.model.Profile;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.websystique.springmvc.model.UserProfile;
-
-
 
 @Repository("userProfileDao")
-public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile>implements UserProfileDao{
+public class UserProfileDaoImpl extends AbstractDao<Integer, Profile>implements UserProfileDao{
 
-	public UserProfile findById(int id) {
+	public Profile findById(int id) {
 		return getByKey(id);
 	}
 
-	public UserProfile findByType(String type) {
+	public Profile findByType(String type) {
 		Criteria crit = createEntityCriteria();
 		crit.add(Restrictions.eq("type", type));
-		return (UserProfile) crit.uniqueResult();
+		return (Profile) crit.uniqueResult();
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<UserProfile> findAll(){
+	public List<Profile> findAll(){
 		Criteria crit = createEntityCriteria();
 		crit.addOrder(Order.asc("type"));
-		return (List<UserProfile>)crit.list();
+		return (List<Profile>)crit.list();
 	}
 	
 }

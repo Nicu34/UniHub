@@ -1,7 +1,7 @@
 package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.dao.UniversityDao;
-import com.websystique.springmvc.model.StudyYears;
+import com.websystique.springmvc.model.StudyYear;
 import com.websystique.springmvc.model.University;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +59,7 @@ public class UniversityServiceImpl implements UniversityService {
         return false;
     }
 
-    private Set<StudyYears> buildStudyYearsSet(Integer years) {
-        return IntStream.range(0, years).mapToObj(StudyYears::new).collect(Collectors.toSet());
+    private Set<StudyYear> buildStudyYearsSet(Integer years) {
+        return IntStream.range(0, years).mapToObj(StudyYear::new).collect(Collectors.toSet());
     }
 }

@@ -2,19 +2,18 @@ package com.websystique.springmvc.model;
 
 import java.io.Serializable;
 
-public enum UserProfileType implements Serializable{
-	USER("USER"),
-	DBA("DBA"),
+public enum ProfileEnum implements Serializable{
+    TEACHER("TEACHER"),
+    STUDENT("STUDENT"),
 	ADMIN("ADMIN");
-	
-	String userProfileType;
-	
-	private UserProfileType(String userProfileType){
+
+	private String userProfileType;
+
+	ProfileEnum(String userProfileType){
 		this.userProfileType = userProfileType;
 	}
-	
+
 	public String getUserProfileType(){
 		return userProfileType;
 	}
-	
 }
