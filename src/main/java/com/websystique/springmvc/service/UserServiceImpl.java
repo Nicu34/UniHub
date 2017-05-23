@@ -1,14 +1,17 @@
 package com.websystique.springmvc.service;
 
-import java.util.List;
-
+import com.websystique.springmvc.dao.UserDao;
+import com.websystique.springmvc.model.User;
+import com.websystique.springmvc.model.UserProfile;
+import com.websystique.springmvc.model.UserProfileType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.websystique.springmvc.dao.UserDao;
-import com.websystique.springmvc.model.User;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service("userService")
@@ -31,6 +34,12 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public void saveUser(User user) {
+		Set<UserProfile> userProfiles = new HashSet<>();
+		UserProfile userProfile = new UserProfile();
+
+		userProfile.setType(UserProfileType.ADMIN.getUserProfileType());
+		userProfiles.add(userProfile);
+		user.setUserProfiles(userProfiles);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		dao.save(user);
 	}

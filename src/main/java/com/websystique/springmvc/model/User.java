@@ -3,6 +3,7 @@ package com.websystique.springmvc.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -35,11 +36,19 @@ public class User implements Serializable{
 	private String email;
 
 	@NotEmpty
-	@ManyToMany(fetch = FetchType.LAZY)
+	@Column(name="phone", nullable=false)
+	private String phone;
+
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "APP_USER_USER_PROFILE", 
              joinColumns = { @JoinColumn(name = "USER_ID") }, 
              inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-	private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
+	private Set<UserProfile> userProfiles = new HashSet<>();
+
+	@NotNull
+	@Transient
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private University university;
 
 	public Integer getId() {
 		return id;
@@ -140,5 +149,19 @@ public class User implements Serializable{
 	}
 
 
-	
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public University getUniversity() {
+		return university;
+	}
+
+	public void setUniversity(University university) {
+		this.university = university;
+	}
 }

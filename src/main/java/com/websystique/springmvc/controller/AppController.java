@@ -1,12 +1,11 @@
 package com.websystique.springmvc.controller;
 
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-
+import com.websystique.springmvc.model.University;
+import com.websystique.springmvc.model.User;
+import com.websystique.springmvc.model.UserProfile;
+import com.websystique.springmvc.service.UniversityService;
+import com.websystique.springmvc.service.UserProfileService;
+import com.websystique.springmvc.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -18,16 +17,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
-import com.websystique.springmvc.model.User;
-import com.websystique.springmvc.model.UserProfile;
-import com.websystique.springmvc.service.UserProfileService;
-import com.websystique.springmvc.service.UserService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Locale;
 
 
 
@@ -38,7 +34,10 @@ public class AppController {
 
 	@Autowired
 	UserService userService;
-	
+
+	@Autowired
+	UniversityService universityService;
+
 	@Autowired
 	UserProfileService userProfileService;
 	
@@ -84,10 +83,6 @@ public class AppController {
 	public String saveUser(@Valid User user, BindingResult result,
 			ModelMap model) {
 
-		if (result.hasErrors()) {
-			return "registration";
-		}
-
 		/*
 		 * Preferred way to achieve uniqueness of field [sso] should be implementing custom @Unique annotation 
 		 * and applying it on field [sso] of Model class [User].
@@ -101,7 +96,19 @@ public class AppController {
 		    result.addError(ssoError);
 			return "registration";
 		}
-		
+
+
+		//TODO TESTING PURPOSE
+		University university = new University();
+		university.setCity("city");
+		university.setAddress("address");
+		university.setLongName("long name " + user.getSsoId());
+		university.setPhone("112");
+		university.setShortName("short name " + user.getSsoId());
+		universityService.saveUniversity(university, 5);
+		/////////////////////////////
+
+		user.setUniversity(university);
 		userService.saveUser(user);
 
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
@@ -130,18 +137,6 @@ public class AppController {
 	@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.POST)
 	public String updateUser(@Valid User user, BindingResult result,
 			ModelMap model, @PathVariable String ssoId) {
-
-		if (result.hasErrors()) {
-			return "registration";
-		}
-
-		/*//Uncomment below 'if block' if you WANT TO ALLOW UPDATING SSO_ID in UI which is a unique key to a User.
-		if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
-			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
-		    result.addError(ssoError);
-			return "registration";
-		}*/
-
 
 		userService.updateUser(user);
 
