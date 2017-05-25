@@ -11,7 +11,14 @@ public class Profile implements Serializable{
 
 	@Column(length=15, unique=true, nullable=false)
 	private String type = ProfileEnum.ADMIN.getUserProfileType();
-	
+
+	public Profile(String type) {
+		this.type = type;
+	}
+
+	public Profile() {
+	}
+
 	public Integer getId() {
 		return id;
 	}

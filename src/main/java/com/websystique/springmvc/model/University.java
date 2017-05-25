@@ -2,6 +2,7 @@ package com.websystique.springmvc.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -29,9 +30,11 @@ public class University {
     @NotNull
     private String phone;
 
-    @NotNull
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<StudyYear> studyYears;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Course> courses = new HashSet<>();
 
     public Integer getId() {
         return id;

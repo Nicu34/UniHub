@@ -45,8 +45,7 @@ public class User implements Serializable{
 	private Set<Profile> profiles = new HashSet<>();
 
 	@NotNull
-	@Transient
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private University university;
 
 	public Integer getId() {

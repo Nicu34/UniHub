@@ -1,24 +1,47 @@
 package com.websystique.springmvc.service;
 
+import com.websystique.springmvc.dao.UniversityDao;
+import com.websystique.springmvc.model.StudyYear;
 import com.websystique.springmvc.model.University;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * Created by nicu on 5/20/2017.
  */
-public interface UniversityService {
-    University findById(int id);
+@Service
+@Transactional
+public class UniversityService {
 
-    University findByShortName(String shortName);
+    @Autowired
+    private UniversityDao universityDao;
 
-    void saveUniversity(University university, Integer years);
+    public University findById(int id) {
+        return universityDao.findById(id);
+    }
 
-    void updateUniversity(University university);
+    public void save(University university, Integer years) {
+        university.setStudyYears(buildStudyYearsSet(years));
+        universityDao.save(university);
+    }
 
-    void deleteUniversityByShortName(String shortName);
+    public List<University> findAll() {
+        return universityDao.findAllUniversities();
+    }
 
-    List<University> findAllUniversities();
+    public void deleteById(Integer id) {
+        universityDao.deleteById(id);
+    }
 
-    boolean isUniversityShortNameUnique(Integer id, String shortName);
+    private Set<StudyYear> buildStudyYearsSet(Integer years) {
+        return IntStream.range(0, years)
+                .mapToObj(StudyYear::new)
+                .collect(Collectors.toSet());
+    }
 }

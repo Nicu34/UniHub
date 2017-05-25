@@ -1,7 +1,7 @@
 package com.websystique.springmvc.security;
 
-import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.model.Profile;
+import com.websystique.springmvc.model.User;
 import com.websystique.springmvc.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

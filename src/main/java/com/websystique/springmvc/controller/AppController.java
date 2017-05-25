@@ -1,11 +1,7 @@
 package com.websystique.springmvc.controller;
 
-import com.websystique.springmvc.model.University;
-import com.websystique.springmvc.model.User;
-import com.websystique.springmvc.model.Profile;
-import com.websystique.springmvc.service.UniversityService;
-import com.websystique.springmvc.service.UserProfileService;
-import com.websystique.springmvc.service.UserService;
+import com.websystique.springmvc.model.*;
+import com.websystique.springmvc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
@@ -22,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -68,11 +66,69 @@ public class AppController {
 	 */
 	@RequestMapping(value = { "/newuser" }, method = RequestMethod.GET)
 	public String newUser(ModelMap model) {
+//		testShit();
+
 		User user = new User();
 		model.addAttribute("user", user);
 		model.addAttribute("edit", false);
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "registration";
+	}
+
+	@Autowired
+	StudentService studentService;
+	@Autowired
+	StudyYearService studyYearService;
+	@Autowired
+	GroupService groupService;
+	@Autowired
+	TeacherService teacherService;
+	@Autowired
+	CourseService courseService;
+
+	@org.springframework.transaction.annotation.Transactional
+	private void testShit() {
+		University university = new University();
+		university.setCity("city");
+		university.setAddress("address");
+		university.setLongName("long name ");
+		university.setPhone("112");
+		university.setShortName("short name ");
+		university.setStudyYears(new HashSet<>());
+		universityService.save(university, 3);
+
+		SchoolGroup schoolGroup = new SchoolGroup();
+		schoolGroup.setGroupNumber(922L);
+		schoolGroup.setStudyYear(studyYearService.findByYear(2));
+		groupService.save(schoolGroup);
+
+		User user = new User();
+		user.setFirstName("firstName");
+		user.setSsoId("ssoid");
+		user.setUniversity(university);
+		user.setPassword("password");
+		user.setEmail("email");
+		user.setLastName("last");
+		user.setPhone("0233");
+		user.setProfiles(new HashSet<>((Arrays.asList(new Profile(ProfileEnum.TEACHER.getUserProfileType())))));
+		userService.saveUser(user);
+
+//		Student student = new Student();
+//		student.setSchoolGroup(schoolGroup);
+//		student.setUser(user);
+//		studentService.save(student);
+
+
+		Teacher teacher = new Teacher();
+		teacher.setSchoolGroups(new HashSet<>(Arrays.asList(schoolGroup)));
+		teacher.setUser(user);
+		teacherService.save(teacher);
+
+		Course course = new Course();
+		course.setName("name");
+		course.setSyllabus("sylabuss");
+		course.setTeacher(teacher);
+		courseService.save(course);
 	}
 
 	/**
@@ -105,7 +161,7 @@ public class AppController {
 		university.setLongName("long name " + user.getSsoId());
 		university.setPhone("112");
 		university.setShortName("short name " + user.getSsoId());
-		universityService.saveUniversity(university, 5);
+		universityService.save(university, 5);
 		/////////////////////////////
 
 		user.setUniversity(university);
