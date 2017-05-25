@@ -1,17 +1,13 @@
 package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.dao.UserDao;
-import com.websystique.springmvc.model.Profile;
-import com.websystique.springmvc.model.ProfileEnum;
 import com.websystique.springmvc.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional
@@ -32,12 +28,6 @@ public class UserService {
 	}
 
 	public void saveUser(User user) {
-		Set<Profile> profiles = new HashSet<>();
-		Profile profile = new Profile();
-
-		profile.setType(ProfileEnum.ADMIN.getUserProfileType());
-		profiles.add(profile);
-		user.setProfiles(profiles);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		dao.save(user);
 	}

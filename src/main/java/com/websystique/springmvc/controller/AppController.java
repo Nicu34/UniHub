@@ -1,5 +1,8 @@
 package com.websystique.springmvc.controller;
 
+import com.websystique.springmvc.converter.AdminDtoToUniversity;
+import com.websystique.springmvc.converter.AdminDtoToUser;
+import com.websystique.springmvc.dto.AdminDto;
 import com.websystique.springmvc.model.*;
 import com.websystique.springmvc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -18,11 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-
+import java.util.*;
 
 
 @Controller
@@ -66,12 +66,10 @@ public class AppController {
 	 */
 	@RequestMapping(value = { "/newuser" }, method = RequestMethod.GET)
 	public String newUser(ModelMap model) {
-//		testShit();
-
-		User user = new User();
-		model.addAttribute("user", user);
+		model.addAttribute("admin", new AdminDto());
 		model.addAttribute("edit", false);
 		model.addAttribute("loggedinuser", getPrincipal());
+
 		return "registration";
 	}
 
@@ -91,7 +89,7 @@ public class AppController {
 		University university = new University();
 		university.setCity("city");
 		university.setAddress("address");
-		university.setLongName("long name ");
+		university.setLongName("long name");
 		university.setPhone("112");
 		university.setShortName("short name ");
 		university.setStudyYears(new HashSet<>());
@@ -136,43 +134,39 @@ public class AppController {
 	 * saving user in database. It also validates the user input
 	 */
 	@RequestMapping(value = { "/newuser" }, method = RequestMethod.POST)
-	public String saveUser(@Valid User user, BindingResult result,
+	public String saveUser(AdminDto admin, BindingResult result,
 			ModelMap model) {
 
-		/*
-		 * Preferred way to achieve uniqueness of field [sso] should be implementing custom @Unique annotation 
-		 * and applying it on field [sso] of Model class [User].
-		 * 
-		 * Below mentioned peace of code [if block] is to demonstrate that you can fill custom errors outside the validation
-		 * framework as well while still using internationalized messages.
-		 * 
-		 */
-		if(!userService.isUserSSOUnique(user.getId(), user.getSsoId())){
-			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{user.getSsoId()}, Locale.getDefault()));
-		    result.addError(ssoError);
+		if(!userService.isUserSSOUnique(100, admin.getUsername())){
+			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{admin.getUsername()}, Locale.getDefault()));
+			result.addError(ssoError);
 			return "registration";
 		}
 
+		User user = new AdminDtoToUser().convert(admin);
+		University university = new AdminDtoToUniversity().convert(admin);
 
-		//TODO TESTING PURPOSE
-		University university = new University();
-		university.setCity("city");
-		university.setAddress("address");
-		university.setLongName("long name " + user.getSsoId());
-		university.setPhone("112");
-		university.setShortName("short name " + user.getSsoId());
-		universityService.save(university, 5);
-		/////////////////////////////
-
-		user.setUniversity(university);
-		userService.saveUser(user);
+		registerNewAdmin(user, university, admin.getUniversityStudyYears());
 
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
-		//return "success";
+
 		return "registrationsuccess";
 	}
 
+	@Transactional
+	private void registerNewAdmin(User user, University university, Integer studyYears) {
+		Set<Profile> profiles = new HashSet<>();
+		Profile profile = new Profile();
+
+		profile.setType(ProfileEnum.ADMIN.getUserProfileType());
+		profiles.add(profile);
+		user.setProfiles(profiles);
+		user.setUniversity(university);
+
+		universityService.save(university, studyYears);
+		userService.saveUser(user);
+	}
 
 	/**
 	 * This method will provide the medium to update an existing user.
@@ -219,7 +213,7 @@ public class AppController {
 	public List<Profile> initializeProfiles() {
 		return userProfileService.findAll();
 	}
-	
+
 	/**
 	 * This method handles Access-Denied redirect.
 	 */
@@ -234,7 +228,8 @@ public class AppController {
 	 * If users is already logged-in and tries to goto login page again, will be redirected to list page.
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String loginPage() {
+	public String loginPage(ModelMap model) {
+		model.addAttribute("admin", new AdminDto());
 		if (isCurrentAuthenticationAnonymous()) {
 			return "login";
 	    } else {
