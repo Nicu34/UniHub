@@ -1,6 +1,7 @@
 package com.websystique.springmvc.dao;
 
 import com.websystique.springmvc.model.StudyYear;
+import com.websystique.springmvc.model.University;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -31,8 +32,9 @@ public class StudyYearDao extends AbstractDao<Integer, StudyYear> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<StudyYear> findAllStudyYears() {
+    public List<StudyYear> findAllStudyYears(University university) {
         Criteria criteria = createEntityCriteria();
+        criteria.add(Restrictions.eq("university", university));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
         return (List<StudyYear>) criteria.list();
     }

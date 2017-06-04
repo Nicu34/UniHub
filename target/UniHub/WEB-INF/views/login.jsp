@@ -317,6 +317,10 @@
                                    placeholder="Phone" path="userPhone"/>
                         </div>
                         <div class="form-group">
+                            <form:input type="text" name="Photo link" class="form-control wow fadeInUp"
+                                        placeholder="Photo link" path="userPhotoLink"/>
+                        </div>
+                        <div class="form-group">
                             <form:input type="text" class="form-control wow fadeInUp"
                                    placeholder="University Short Name" path="universityShortName"/>
                         </div>

@@ -3,6 +3,8 @@ package com.websystique.springmvc.controller;
 import com.websystique.springmvc.converter.AdminDtoToUniversity;
 import com.websystique.springmvc.converter.AdminDtoToUser;
 import com.websystique.springmvc.dto.AdminDto;
+import com.websystique.springmvc.dto.EmailDto;
+import com.websystique.springmvc.dto.SchoolGroupDto;
 import com.websystique.springmvc.model.*;
 import com.websystique.springmvc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -51,18 +54,68 @@ public class AppController {
 
 	@Autowired
 	EmailService emailService;
-	
+
+	@Autowired
+	GroupService groupService;
+
+	@Autowired
+	StudyYearService studyYearService;
+
+	@Autowired
+	InvitedUserService invitedUserService;
+
 	/**
 	 * This method will list all existing users.
 	 */
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
 	public String listUsers(ModelMap model) throws MessagingException {
 		String userName = getPrincipal();
-		List<User> users = userService.findAllUsers(userService.findBySSO(userName).getUniversity());
-		model.addAttribute("users", users);
+		University university = userService.findBySSO(userName).getUniversity();
+		List<User> users = userService.findAllUsers(university);
+		model.addAttribute("adminUsers", users.stream().filter(user -> user.getProfiles().contains(new Profile(ProfileEnum.ADMIN.getUserProfileType()))).collect(Collectors.toSet()));
+		model.addAttribute("studentUsers", users.stream().filter(user -> user.getProfiles().contains(new Profile(ProfileEnum.STUDENT.getUserProfileType()))).collect(Collectors.toSet()));
+		model.addAttribute("teacherUsers", users.stream().filter(user -> user.getProfiles().contains(new Profile(ProfileEnum.TEACHER.getUserProfileType()))).collect(Collectors.toSet()));
 		model.addAttribute("loggedinuser", userName);
-		emailService.buildAndSendEmail("muresannikolai@gmail.com unihub2017@gmail.com", getPrincipal(), ProfileEnum.TEACHER);
-		return "userslist";
+		model.addAttribute("userDetails", userService.findBySSO(userName));
+		model.addAttribute("emailDto", new EmailDto());
+		model.addAttribute("groupsList", groupService.findAll(university));
+		model.addAttribute("studyYears", studyYearService.findAll(university));
+		model.addAttribute("schoolGroupDto", new SchoolGroupDto());
+
+		return "admin";
+	}
+
+	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
+	public String addGroup(@ModelAttribute SchoolGroupDto schoolGroupDto) {
+		SchoolGroup schoolGroup = new SchoolGroup();
+
+		schoolGroup.setGroupNumber(schoolGroupDto.getGroupName());
+		schoolGroup.setStudyYear(studyYearService.findByYear(schoolGroupDto.getStudyYear()));
+		schoolGroup.setUniversity(userService.findBySSO(getPrincipal()).getUniversity());
+		groupService.save(schoolGroup);
+
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/inviteAdmins", method = RequestMethod.POST)
+	public String inviteAdmins(@ModelAttribute EmailDto emailDto) throws MessagingException {
+		registerTemporaryAccountAndSendEmail(emailDto.getAdminEmails(), getPrincipal(), ProfileEnum.ADMIN);
+
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/inviteTeachers", method = RequestMethod.POST)
+	public String inviteTeachers(@ModelAttribute EmailDto emailDto) throws MessagingException {
+		registerTemporaryAccountAndSendEmail(emailDto.getTeacherEmails(), getPrincipal(), ProfileEnum.TEACHER);
+
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = "/inviteStudents", method = RequestMethod.POST)
+	public String inviteStudents(@ModelAttribute EmailDto emailDto) throws MessagingException {
+		registerTemporaryAccountAndSendEmail(emailDto.getStudentEmails(), getPrincipal(), ProfileEnum.STUDENT);
+
+		return "redirect:/";
 	}
 
 	/**
@@ -100,6 +153,12 @@ public class AppController {
 		model.addAttribute("loggedinuser", getPrincipal());
 
 		return "registrationsuccess";
+	}
+
+	@Transactional
+	private void registerTemporaryAccountAndSendEmail(String invitedEmails, String loggedInUsername, ProfileEnum role) throws MessagingException {
+	    invitedUserService.saveMultipleAccounts(invitedEmails, role, userService.findBySSO(loggedInUsername).getUniversity());
+	    emailService.sendEmailInvitation(invitedEmails, loggedInUsername, role);
 	}
 
 	@Transactional

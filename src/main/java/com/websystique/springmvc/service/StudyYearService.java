@@ -2,6 +2,7 @@ package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.dao.StudyYearDao;
 import com.websystique.springmvc.model.StudyYear;
+import com.websystique.springmvc.model.University;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +27,8 @@ public class StudyYearService {
         studyYearDao.save(studyYear);
     }
 
-    public List<StudyYear> findAll() {
-        return studyYearDao.findAllStudyYears();
+    public List<StudyYear> findAll(University university) {
+        return studyYearDao.findAllStudyYears(university);
     }
 
     public void deleteById(Integer id) {

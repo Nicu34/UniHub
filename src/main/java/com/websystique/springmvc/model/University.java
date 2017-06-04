@@ -2,8 +2,8 @@ package com.websystique.springmvc.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nicu on 5/20/2017.
@@ -16,9 +16,11 @@ public class University {
     private Integer id;
 
     @NotNull
+    @Column(unique = true)
     private String longName;
 
     @NotNull
+    @Column(unique = true)
     private String shortName;
 
     @NotNull
@@ -31,10 +33,10 @@ public class University {
     private String phone;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<StudyYear> studyYears;
+    private List<StudyYear> studyYears = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Course> courses = new HashSet<>();
+    private List<Course> courses = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -84,14 +86,6 @@ public class University {
         this.phone = phone;
     }
 
-    public Set<StudyYear> getStudyYears() {
-        return studyYears;
-    }
-
-    public void setStudyYears(Set<StudyYear> studyYears) {
-        this.studyYears = studyYears;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -110,5 +104,21 @@ public class University {
         result = 31 * result + (longName != null ? longName.hashCode() : 0);
         result = 31 * result + (shortName != null ? shortName.hashCode() : 0);
         return result;
+    }
+
+    public List<StudyYear> getStudyYears() {
+        return studyYears;
+    }
+
+    public void setStudyYears(List<StudyYear> studyYears) {
+        this.studyYears = studyYears;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 }

@@ -19,6 +19,7 @@ public class AdminDtoToUser implements Converter<AdminDto, User> {
         user.setPassword(source.getUserPassword());
         user.setSsoId(source.getUsername());
         user.setFirstName(source.getUserFirstName());
+        user.setPhotoLink(source.getUserPhotoLink());
 
         return user;
     }

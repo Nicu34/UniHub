@@ -1,8 +1,10 @@
 package com.websystique.springmvc.dao;
 
 import com.websystique.springmvc.model.SchoolGroup;
+import com.websystique.springmvc.model.University;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -36,9 +38,15 @@ public class GroupDao extends AbstractDao<Integer, SchoolGroup> {
     }
 
     @SuppressWarnings("unchecked")
-    public List<SchoolGroup> findAllGroups() {
+    public List<SchoolGroup> findAllGroups(University university) {
         Criteria criteria = createEntityCriteria();
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return (List<SchoolGroup>) criteria.list();
+        criteria.add(Restrictions.eq("university", university));
+        List<SchoolGroup> schoolGroupList = (List<SchoolGroup>) criteria.list();
+
+        schoolGroupList.forEach(schoolGroup -> Hibernate.initialize(schoolGroup.getStudyYear()));
+
+        return schoolGroupList;
+
     }
 }

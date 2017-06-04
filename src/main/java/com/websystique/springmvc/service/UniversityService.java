@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -27,7 +26,7 @@ public class UniversityService {
     }
 
     public void save(University university, Integer years) {
-        university.setStudyYears(buildStudyYearsSet(years));
+        university.setStudyYears(buildStudyYearsSet(years, university));
         universityDao.save(university);
     }
 
@@ -39,9 +38,18 @@ public class UniversityService {
         universityDao.deleteById(id);
     }
 
-    private Set<StudyYear> buildStudyYearsSet(Integer years) {
-        return IntStream.range(0, years)
-                .mapToObj(StudyYear::new)
-                .collect(Collectors.toSet());
+    private List<StudyYear> buildStudyYearsSet(Integer years, University university) {
+        return IntStream.range(0, years + 1)
+                .mapToObj(value -> this.buildStudyYear(value, university))
+                .collect(Collectors.toList());
+    }
+
+    private StudyYear buildStudyYear(Integer year, University university) {
+        StudyYear studyYear = new StudyYear();
+
+        studyYear.setYear(year);
+        studyYear.setUniversity(university);
+
+        return studyYear;
     }
 }

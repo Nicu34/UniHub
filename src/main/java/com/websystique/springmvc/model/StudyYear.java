@@ -16,9 +16,9 @@ public class StudyYear {
     @NotNull
     private Integer year;
 
-    public StudyYear(Integer year) {
-        this.year = year;
-    }
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private University university;
 
     public StudyYear() {
     }
@@ -37,5 +37,13 @@ public class StudyYear {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public University getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(University university) {
+        this.university = university;
     }
 }

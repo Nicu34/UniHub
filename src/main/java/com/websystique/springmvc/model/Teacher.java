@@ -2,8 +2,8 @@ package com.websystique.springmvc.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nicu on 5/24/2017.
@@ -20,10 +20,10 @@ public class Teacher {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private Set<SchoolGroup> schoolGroups = new HashSet<>();
+    private List<SchoolGroup> schoolGroups = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<Course> courses = new HashSet<>();
+    private List<Course> courses = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -41,19 +41,19 @@ public class Teacher {
         this.user = user;
     }
 
-    public Set<SchoolGroup> getSchoolGroups() {
+    public List<SchoolGroup> getSchoolGroups() {
         return schoolGroups;
     }
 
-    public void setSchoolGroups(Set<SchoolGroup> schoolGroups) {
+    public void setSchoolGroups(List<SchoolGroup> schoolGroups) {
         this.schoolGroups = schoolGroups;
     }
 
-    public Set<Course> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(Set<Course> courses) {
+    public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
 }

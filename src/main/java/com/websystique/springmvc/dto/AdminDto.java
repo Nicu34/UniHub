@@ -10,6 +10,7 @@ public class AdminDto {
     private String userPassword;
     private String userEmail;
     private String userPhone;
+    private String userPhotoLink;
     private String universityShortName;
     private String universityLongName;
     private String universityCity;
@@ -111,5 +112,13 @@ public class AdminDto {
 
     public void setUniversityStudyYears(Integer universityStudyYears) {
         this.universityStudyYears = universityStudyYears;
+    }
+
+    public String getUserPhotoLink() {
+        return userPhotoLink;
+    }
+
+    public void setUserPhotoLink(String userPhotoLink) {
+        this.userPhotoLink = userPhotoLink;
     }
 }

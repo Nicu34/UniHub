@@ -2,6 +2,7 @@ package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.dao.GroupDao;
 import com.websystique.springmvc.model.SchoolGroup;
+import com.websystique.springmvc.model.University;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +27,8 @@ public class GroupService {
         courseDao.save(course);
     }
 
-    public List<SchoolGroup> findAll() {
-        return courseDao.findAllGroups();
+    public List<SchoolGroup> findAll(University university) {
+        return courseDao.findAllGroups(university);
     }
 
     public void deleteById(Integer id) {

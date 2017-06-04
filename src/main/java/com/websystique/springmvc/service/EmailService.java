@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
-import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -28,18 +31,25 @@ public class EmailService {
 
     private static final String emailSubject = "Create UniHub account";
 
-    private static final String incomingLink = "www.hellothere.com";
+    private static final String incomingLink = "www.hellothere.com/%s";
 
-    public void buildAndSendEmail(String receivers, String userName, ProfileEnum profileEnum) throws MessagingException {
-        Address[] addresses = InternetAddress.parse(receivers.replace(" ", ",").replaceAll("\\s+", ""));
+    public void sendEmailInvitation(String receivers, String userName, ProfileEnum profileEnum) throws MessagingException {
         Message message = new MimeMessage(emailSession);
-        User user = userService.findBySSO(userName);
-        University university = user.getUniversity();
 
         message.setFrom(new InternetAddress(emailSession.getProperty("mail.fromAddress")));
         message.setSubject(emailSubject);
-        message.setText(String.format(emailMessage, user.getFirstName() + " " + user.getLastName(), university.getLongName(), profileEnum.getUserProfileType().toLowerCase(), incomingLink));
+        for (String emailToBeInvited : receivers.trim().replaceAll("\\s+", " ").split(" ")) {
+            buildMessageAndSendEmail(message, emailToBeInvited, userName, profileEnum);
+        }
+    }
 
-        Transport.send(message, addresses);
+    private void buildMessageAndSendEmail(Message message, String address, String userName, ProfileEnum profileEnum) throws MessagingException {
+        User user = userService.findBySSO(userName);
+        University university = user.getUniversity();
+
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
+        message.setText(String.format(emailMessage, user.getFirstName() + " " + user.getLastName(), university.getLongName(), profileEnum.getUserProfileType().toLowerCase(), String.format(incomingLink, address)));
+
+        Transport.send(message);
     }
 }

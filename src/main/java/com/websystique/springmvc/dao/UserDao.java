@@ -39,7 +39,10 @@ public class UserDao extends AbstractDao<Integer, User> {
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
         criteria.add(Restrictions.eq("university", university));
 
-        return (List<User>) criteria.list();
+        List<User> userList = (List<User>) criteria.list();
+
+        userList.forEach(user -> Hibernate.initialize(user.getProfiles()));
+        return userList;
     }
 
     public void save(User user) {
