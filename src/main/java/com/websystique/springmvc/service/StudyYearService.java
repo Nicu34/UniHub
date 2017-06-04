@@ -35,7 +35,7 @@ public class StudyYearService {
         studyYearDao.deleteById(id);
     }
 
-    public StudyYear findByYear(Integer year) {
-        return studyYearDao.findByYear(year);
+    public StudyYear findByYearAndUniversity(Integer year, University university) {
+        return studyYearDao.findByYear(year, university);
     }
 }

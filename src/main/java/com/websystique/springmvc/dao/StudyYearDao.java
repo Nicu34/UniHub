@@ -39,9 +39,10 @@ public class StudyYearDao extends AbstractDao<Integer, StudyYear> {
         return (List<StudyYear>) criteria.list();
     }
 
-    public StudyYear findByYear(Integer year) {
+    public StudyYear findByYear(Integer year, University university) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("year", year));
+        crit.add(Restrictions.eq("university", university));
         return (StudyYear) crit.uniqueResult();
     }
 }

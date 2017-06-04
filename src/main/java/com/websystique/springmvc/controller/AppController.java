@@ -72,9 +72,9 @@ public class AppController {
 		String userName = getPrincipal();
 		University university = userService.findBySSO(userName).getUniversity();
 		List<User> users = userService.findAllUsers(university);
-		model.addAttribute("adminUsers", users.stream().filter(user -> user.getProfiles().contains(new Profile(ProfileEnum.ADMIN.getUserProfileType()))).collect(Collectors.toSet()));
-		model.addAttribute("studentUsers", users.stream().filter(user -> user.getProfiles().contains(new Profile(ProfileEnum.STUDENT.getUserProfileType()))).collect(Collectors.toSet()));
-		model.addAttribute("teacherUsers", users.stream().filter(user -> user.getProfiles().contains(new Profile(ProfileEnum.TEACHER.getUserProfileType()))).collect(Collectors.toSet()));
+		model.addAttribute("adminUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.ADMIN).collect(Collectors.toSet()));
+		model.addAttribute("studentUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.STUDENT).collect(Collectors.toSet()));
+		model.addAttribute("teacherUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.TEACHER).collect(Collectors.toSet()));
 		model.addAttribute("loggedinuser", userName);
 		model.addAttribute("userDetails", userService.findBySSO(userName));
 		model.addAttribute("emailDto", new EmailDto());
@@ -88,10 +88,10 @@ public class AppController {
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
 	public String addGroup(@ModelAttribute SchoolGroupDto schoolGroupDto) {
 		SchoolGroup schoolGroup = new SchoolGroup();
-
+		University university = userService.findBySSO(getPrincipal()).getUniversity();
 		schoolGroup.setGroupNumber(schoolGroupDto.getGroupName());
-		schoolGroup.setStudyYear(studyYearService.findByYear(schoolGroupDto.getStudyYear()));
-		schoolGroup.setUniversity(userService.findBySSO(getPrincipal()).getUniversity());
+		schoolGroup.setStudyYear(studyYearService.findByYearAndUniversity(schoolGroupDto.getStudyYear(), university));
+		schoolGroup.setUniversity(university);
 		groupService.save(schoolGroup);
 
 		return "redirect:/";
@@ -163,12 +163,7 @@ public class AppController {
 
 	@Transactional
 	private void registerNewAdmin(User user, University university, Integer studyYears) {
-		Set<Profile> profiles = new HashSet<>();
-		Profile profile = new Profile();
-
-		profile.setType(ProfileEnum.ADMIN.getUserProfileType());
-		profiles.add(profile);
-		user.setProfiles(profiles);
+		user.setProfileEnum(ProfileEnum.ADMIN);
 		user.setUniversity(university);
 
 		universityService.save(university, studyYears);

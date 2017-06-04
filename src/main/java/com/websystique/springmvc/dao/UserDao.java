@@ -15,11 +15,7 @@ import java.util.List;
 public class UserDao extends AbstractDao<Integer, User> {
 
     public User findById(int id) {
-        User user = getByKey(id);
-        if (user != null) {
-            Hibernate.initialize(user.getProfiles());
-        }
-        return user;
+        return getByKey(id);
     }
 
     public User findBySSO(String sso) {
@@ -27,7 +23,6 @@ public class UserDao extends AbstractDao<Integer, User> {
         crit.add(Restrictions.eq("ssoId", sso));
         User user = (User) crit.uniqueResult();
         if (user != null) {
-            Hibernate.initialize(user.getProfiles());
             Hibernate.initialize(user.getUniversity());
         }
         return user;
@@ -39,10 +34,7 @@ public class UserDao extends AbstractDao<Integer, User> {
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
         criteria.add(Restrictions.eq("university", university));
 
-        List<User> userList = (List<User>) criteria.list();
-
-        userList.forEach(user -> Hibernate.initialize(user.getProfiles()));
-        return userList;
+        return (List<User>) criteria.list();
     }
 
     public void save(User user) {

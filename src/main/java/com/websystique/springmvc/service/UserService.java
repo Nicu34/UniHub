@@ -48,7 +48,7 @@ public class UserService {
 			entity.setFirstName(user.getFirstName());
 			entity.setLastName(user.getLastName());
 			entity.setEmail(user.getEmail());
-			entity.setProfiles(user.getProfiles());
+			entity.setProfileEnum(user.getProfileEnum());
 		}
 	}
 

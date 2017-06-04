@@ -5,8 +5,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class User implements Serializable{
@@ -41,11 +39,9 @@ public class User implements Serializable{
 	@Column
 	private String photoLink;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "UserProfile",
-             joinColumns = { @JoinColumn(name = "user_id") },
-             inverseJoinColumns = { @JoinColumn(name = "profile_id") })
-	private Set<Profile> profiles = new HashSet<>();
+	@Column
+	@NotNull
+	private ProfileEnum profileEnum = ProfileEnum.ADMIN;
 
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
@@ -97,14 +93,6 @@ public class User implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public Set<Profile> getProfiles() {
-		return profiles;
-	}
-
-	public void setProfiles(Set<Profile> profiles) {
-		this.profiles = profiles;
 	}
 
 	@Override
@@ -172,5 +160,13 @@ public class User implements Serializable{
 
 	public void setPhotoLink(String photoLink) {
 		this.photoLink = photoLink;
+	}
+
+	public ProfileEnum getProfileEnum() {
+		return profileEnum;
+	}
+
+	public void setProfileEnum(ProfileEnum profileEnum) {
+		this.profileEnum = profileEnum;
 	}
 }

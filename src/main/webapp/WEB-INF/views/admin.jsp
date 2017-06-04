@@ -349,7 +349,7 @@
                     <div class="col-md-6 ">
                         <!-- /.feature 1 -->
                         <div class="fadeInRight" style="width:100%;">
-                            <h3 class="form-title text-center">Current Courses</h3>
+                            <h3 class="form-title text-center">Current Groups</h3>
                             <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
                             <div class="inner" style="width:100%;">
                                 <table style="margin-top:0px;border-radius: 10px;">
