@@ -38,6 +38,9 @@ public class User implements Serializable{
 	@Column(nullable=false)
 	private String phone;
 
+	@Column
+	private String photoLink;
+
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "UserProfile",
              joinColumns = { @JoinColumn(name = "user_id") },
@@ -161,5 +164,13 @@ public class User implements Serializable{
 
 	public void setUniversity(University university) {
 		this.university = university;
+	}
+
+	public String getPhotoLink() {
+		return photoLink;
+	}
+
+	public void setPhotoLink(String photoLink) {
+		this.photoLink = photoLink;
 	}
 }

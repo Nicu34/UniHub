@@ -1,6 +1,7 @@
 package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.dao.UserDao;
+import com.websystique.springmvc.model.University;
 import com.websystique.springmvc.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,22 +15,22 @@ import java.util.List;
 public class UserService {
 
 	@Autowired
-	private UserDao dao;
+	private UserDao userDao;
 
 	@Autowired
     private PasswordEncoder passwordEncoder;
 	
 	public User findById(int id) {
-		return dao.findById(id);
+		return userDao.findById(id);
 	}
 
 	public User findBySSO(String sso) {
-		return dao.findBySSO(sso);
+		return userDao.findBySSO(sso);
 	}
 
 	public void saveUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		dao.save(user);
+		userDao.save(user);
 	}
 
 	/*
@@ -38,7 +39,7 @@ public class UserService {
 	 * It will be updated in db once transaction ends. 
 	 */
 	public void updateUser(User user) {
-		User entity = dao.findById(user.getId());
+		User entity = userDao.findById(user.getId());
 		if(entity!=null){
 			entity.setSsoId(user.getSsoId());
 			if(!user.getPassword().equals(entity.getPassword())){
@@ -52,11 +53,11 @@ public class UserService {
 	}
 
 	public void deleteUserBySSO(String sso) {
-		dao.deleteBySSO(sso);
+		userDao.deleteBySSO(sso);
 	}
 
-	public List<User> findAllUsers() {
-		return dao.findAllUsers();
+	public List<User> findAllUsers(University university) {
+		return userDao.findAllUsers(university);
 	}
 
 	public boolean isUserSSOUnique(Integer id, String sso) {

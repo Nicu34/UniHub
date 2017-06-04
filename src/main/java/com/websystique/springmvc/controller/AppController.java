@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -55,12 +56,12 @@ public class AppController {
 	 * This method will list all existing users.
 	 */
 	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
-	public String listUsers(ModelMap model) {
-
-		List<User> users = userService.findAllUsers();
+	public String listUsers(ModelMap model) throws MessagingException {
+		String userName = getPrincipal();
+		List<User> users = userService.findAllUsers(userService.findBySSO(userName).getUniversity());
 		model.addAttribute("users", users);
-		model.addAttribute("loggedinuser", getPrincipal());
-		emailService.sendEmail("muresannikolai@gmail.com");
+		model.addAttribute("loggedinuser", userName);
+		emailService.buildAndSendEmail("muresannikolai@gmail.com unihub2017@gmail.com", getPrincipal(), ProfileEnum.TEACHER);
 		return "userslist";
 	}
 

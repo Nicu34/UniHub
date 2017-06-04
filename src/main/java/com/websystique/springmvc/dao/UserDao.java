@@ -1,5 +1,6 @@
 package com.websystique.springmvc.dao;
 
+import com.websystique.springmvc.model.University;
 import com.websystique.springmvc.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -27,14 +28,16 @@ public class UserDao extends AbstractDao<Integer, User> {
         User user = (User) crit.uniqueResult();
         if (user != null) {
             Hibernate.initialize(user.getProfiles());
+            Hibernate.initialize(user.getUniversity());
         }
         return user;
     }
 
     @SuppressWarnings("unchecked")
-    public List<User> findAllUsers() {
+    public List<User> findAllUsers(University university) {
         Criteria criteria = createEntityCriteria().addOrder(Order.asc("firstName"));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
+        criteria.add(Restrictions.eq("university", university));
 
         return (List<User>) criteria.list();
     }

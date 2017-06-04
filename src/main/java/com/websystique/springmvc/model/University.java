@@ -91,4 +91,24 @@ public class University {
     public void setStudyYears(Set<StudyYear> studyYears) {
         this.studyYears = studyYears;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        University that = (University) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (longName != null ? !longName.equals(that.longName) : that.longName != null) return false;
+        return shortName != null ? shortName.equals(that.shortName) : that.shortName == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (longName != null ? longName.hashCode() : 0);
+        result = 31 * result + (shortName != null ? shortName.hashCode() : 0);
+        return result;
+    }
 }
