@@ -18,7 +18,6 @@ import org.springframework.web.servlet.view.JstlView;
 @ComponentScan(basePackages = "com.websystique.springmvc")
 public class AppConfig extends WebMvcConfigurerAdapter{
 	
-	
 	@Autowired
 	RoleToUserProfileConverter roleToUserProfileConverter;
 
@@ -29,12 +28,10 @@ public class AppConfig extends WebMvcConfigurerAdapter{
 	public void configureViewResolvers(ViewResolverRegistry registry) {
 
 		InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-//		UrlBasedViewResolver viewResolver = new UrlBasedViewResolver();
 
 		viewResolver.setViewClass(JstlView.class);
 		viewResolver.setPrefix("/WEB-INF/views/");
 		viewResolver.setSuffix(".jsp");
-//		viewResolver.setSuffix(".html");
 		registry.viewResolver(viewResolver);
 	}
 	

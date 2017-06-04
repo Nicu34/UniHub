@@ -47,7 +47,9 @@ public class AppController {
 	
 	@Autowired
 	AuthenticationTrustResolver authenticationTrustResolver;
-	
+
+	@Autowired
+	EmailService emailService;
 	
 	/**
 	 * This method will list all existing users.
@@ -58,6 +60,7 @@ public class AppController {
 		List<User> users = userService.findAllUsers();
 		model.addAttribute("users", users);
 		model.addAttribute("loggedinuser", getPrincipal());
+		emailService.sendEmail("muresannikolai@gmail.com");
 		return "userslist";
 	}
 
@@ -71,62 +74,6 @@ public class AppController {
 		model.addAttribute("loggedinuser", getPrincipal());
 
 		return "registration";
-	}
-
-	@Autowired
-	StudentService studentService;
-	@Autowired
-	StudyYearService studyYearService;
-	@Autowired
-	GroupService groupService;
-	@Autowired
-	TeacherService teacherService;
-	@Autowired
-	CourseService courseService;
-
-	@org.springframework.transaction.annotation.Transactional
-	private void testShit() {
-		University university = new University();
-		university.setCity("city");
-		university.setAddress("address");
-		university.setLongName("long name");
-		university.setPhone("112");
-		university.setShortName("short name ");
-		university.setStudyYears(new HashSet<>());
-		universityService.save(university, 3);
-
-		SchoolGroup schoolGroup = new SchoolGroup();
-		schoolGroup.setGroupNumber(922L);
-		schoolGroup.setStudyYear(studyYearService.findByYear(2));
-		groupService.save(schoolGroup);
-
-		User user = new User();
-		user.setFirstName("firstName");
-		user.setSsoId("ssoid");
-		user.setUniversity(university);
-		user.setPassword("password");
-		user.setEmail("email");
-		user.setLastName("last");
-		user.setPhone("0233");
-		user.setProfiles(new HashSet<>((Arrays.asList(new Profile(ProfileEnum.TEACHER.getUserProfileType())))));
-		userService.saveUser(user);
-
-//		Student student = new Student();
-//		student.setSchoolGroup(schoolGroup);
-//		student.setUser(user);
-//		studentService.save(student);
-
-
-		Teacher teacher = new Teacher();
-		teacher.setSchoolGroups(new HashSet<>(Arrays.asList(schoolGroup)));
-		teacher.setUser(user);
-		teacherService.save(teacher);
-
-		Course course = new Course();
-		course.setName("name");
-		course.setSyllabus("sylabuss");
-		course.setTeacher(teacher);
-		courseService.save(course);
 	}
 
 	/**

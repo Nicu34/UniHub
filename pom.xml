@@ -93,7 +93,14 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>${mysql.connector.version}</version>
 		</dependency>
-		
+
+		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+
 		<!-- SLF4J/Logback -->
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
