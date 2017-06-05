@@ -21,8 +21,6 @@ public class Student {
     @OneToOne(cascade = CascadeType.MERGE)
     private User user;
 
-    private String photoHyperlink;
-
     public Integer getId() {
         return id;
     }
@@ -47,11 +45,4 @@ public class Student {
         this.user = user;
     }
 
-    public String getPhotoHyperlink() {
-        return photoHyperlink;
-    }
-
-    public void setPhotoHyperlink(String photoHyperlink) {
-        this.photoHyperlink = photoHyperlink;
-    }
 }

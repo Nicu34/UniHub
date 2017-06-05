@@ -29,9 +29,20 @@ public class InvitedUserDao extends AbstractDao<Integer, InvitedUser> {
         return user;
     }
 
+    public InvitedUser findBySsoId(String ssoId) {
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq("ssoId", ssoId));
+        InvitedUser user = (InvitedUser) crit.uniqueResult();
+        if (user != null) {
+            Hibernate.initialize(user.getUniversity());
+            Hibernate.initialize(user.getSchoolGroup());
+        }
+        return user;
+    }
+
     @SuppressWarnings("unchecked")
     public List<InvitedUser> findAllInvitedUsers() {
-        Criteria criteria = createEntityCriteria().addOrder(Order.asc("firstName"));
+        Criteria criteria = createEntityCriteria().addOrder(Order.asc("email"));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);//To avoid duplicates.
 
         return (List<InvitedUser>) criteria.list();

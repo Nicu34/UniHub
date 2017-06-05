@@ -49,4 +49,10 @@ public class GroupDao extends AbstractDao<Integer, SchoolGroup> {
         return schoolGroupList;
 
     }
+
+    public SchoolGroup findByGroupNumber(Long groupNumber) {
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq("groupNumber", groupNumber));
+        return (SchoolGroup) crit.uniqueResult();
+    }
 }

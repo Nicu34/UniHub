@@ -25,6 +25,10 @@ public class UniversityService {
         return universityDao.findById(id);
     }
 
+    public University findByShortName(String shortName) {
+        return universityDao.findByShortName(shortName);
+    }
+
     public void save(University university, Integer years) {
         university.setStudyYears(buildStudyYearsSet(years, university));
         universityDao.save(university);
@@ -39,7 +43,7 @@ public class UniversityService {
     }
 
     private List<StudyYear> buildStudyYearsSet(Integer years, University university) {
-        return IntStream.range(0, years + 1)
+        return IntStream.range(1, years + 1)
                 .mapToObj(value -> this.buildStudyYear(value, university))
                 .collect(Collectors.toList());
     }

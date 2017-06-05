@@ -1,5 +1,7 @@
 package com.websystique.springmvc.model;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -19,10 +21,15 @@ public class Teacher {
     @OneToOne(cascade = CascadeType.MERGE)
     private User user;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    private List<SchoolGroup> schoolGroups = new ArrayList<>();
+    @NotNull
+    @NotEmpty
+    private String scheduleLink;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @NotNull
+    @NotEmpty
+    private String filesLink;
+
+    @OneToMany(mappedBy = "teacher")
     private List<Course> courses = new ArrayList<>();
 
     public Integer getId() {
@@ -41,19 +48,27 @@ public class Teacher {
         this.user = user;
     }
 
-    public List<SchoolGroup> getSchoolGroups() {
-        return schoolGroups;
-    }
-
-    public void setSchoolGroups(List<SchoolGroup> schoolGroups) {
-        this.schoolGroups = schoolGroups;
-    }
-
     public List<Course> getCourses() {
         return courses;
     }
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public String getFilesLink() {
+        return filesLink;
+    }
+
+    public void setFilesLink(String filesLink) {
+        this.filesLink = filesLink;
+    }
+
+    public String getScheduleLink() {
+        return scheduleLink;
+    }
+
+    public void setScheduleLink(String scheduleLink) {
+        this.scheduleLink = scheduleLink;
     }
 }

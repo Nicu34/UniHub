@@ -32,6 +32,9 @@ public class University {
     @NotNull
     private String phone;
 
+    @NotNull
+    private String email;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StudyYear> studyYears = new ArrayList<>();
 
@@ -120,5 +123,13 @@ public class University {
 
     public void setCourses(List<Course> courses) {
         this.courses = courses;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -28,6 +28,12 @@ public class UserDao extends AbstractDao<Integer, User> {
         return user;
     }
 
+    public User findOnlyBySSO(String sso) {
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq("ssoId", sso));
+        return (User) crit.uniqueResult();
+    }
+
     @SuppressWarnings("unchecked")
     public List<User> findAllUsers(University university) {
         Criteria criteria = createEntityCriteria().addOrder(Order.asc("firstName"));

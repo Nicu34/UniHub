@@ -236,8 +236,6 @@
                     pdf materials , assignements and
                     files needed by any teacher or student will be centralised and easily accessed from uniHub .
                 </p>
-
-
             </div>
 
             <!-- /.feature image -->

@@ -3,6 +3,7 @@ package com.websystique.springmvc.service;
 import com.websystique.springmvc.dao.InvitedUserDao;
 import com.websystique.springmvc.model.InvitedUser;
 import com.websystique.springmvc.model.ProfileEnum;
+import com.websystique.springmvc.model.SchoolGroup;
 import com.websystique.springmvc.model.University;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,10 @@ public class InvitedUserService {
         return invitedUserDao.findByEmail(email);
     }
 
+    public InvitedUser findBySsoId(String ssoId) {
+        return invitedUserDao.findBySsoId(ssoId);
+    }
+
     public void save(InvitedUser student) {
         invitedUserDao.save(student);
     }
@@ -41,15 +46,15 @@ public class InvitedUserService {
         invitedUserDao.deleteByEmail(email);
     }
 
-    public void saveMultipleAccounts(String invitedEmails, ProfileEnum profileEnum, University university) {
+    public void saveMultipleAccounts(String invitedEmails, ProfileEnum profileEnum, University university, SchoolGroup schoolGroup) {
         Arrays.stream(invitedEmails.trim()
                 .replaceAll("\\s+", " ")
                 .split(" "))
-                .map(email -> buildInvitedUser(email, university, profileEnum))
+                .map(email -> buildInvitedUser(email, university, profileEnum, schoolGroup))
                 .forEach(this::save);
     }
 
-    private InvitedUser buildInvitedUser(String email, University university, ProfileEnum profileEnum) {
+    private InvitedUser buildInvitedUser(String email, University university, ProfileEnum profileEnum, SchoolGroup schoolGroup) {
         String userName = email.substring(0, email.indexOf("@"));
         InvitedUser invitedUser = new InvitedUser();
 
@@ -57,6 +62,7 @@ public class InvitedUserService {
         invitedUser.setProfileEnum(profileEnum);
         invitedUser.setSsoId(userName);
         invitedUser.setUniversity(university);
+        invitedUser.setSchoolGroup(schoolGroup);
 
         return invitedUser;
     }

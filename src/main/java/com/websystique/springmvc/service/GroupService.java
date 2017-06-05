@@ -17,21 +17,24 @@ import java.util.List;
 public class GroupService {
 
     @Autowired
-    private GroupDao courseDao;
+    private GroupDao groupDao;
 
     public SchoolGroup findById(int id) {
-        return courseDao.findById(id);
+        return groupDao.findById(id);
     }
 
+    public SchoolGroup findByGroupNumber(Long groupNumber) {
+        return groupDao.findByGroupNumber(groupNumber);
+    }
     public void save(SchoolGroup course) {
-        courseDao.save(course);
+        groupDao.save(course);
     }
 
     public List<SchoolGroup> findAll(University university) {
-        return courseDao.findAllGroups(university);
+        return groupDao.findAllGroups(university);
     }
 
     public void deleteById(Integer id) {
-        courseDao.deleteById(id);
+        groupDao.deleteById(id);
     }
 }

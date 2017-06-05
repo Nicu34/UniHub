@@ -10,6 +10,8 @@ public class EmailDto {
 
     private String teacherEmails;
 
+    private Long groupNumber;
+
     public String getAdminEmails() {
         return adminEmails;
     }
@@ -32,5 +34,13 @@ public class EmailDto {
 
     public void setTeacherEmails(String teacherEmails) {
         this.teacherEmails = teacherEmails;
+    }
+
+    public Long getGroupNumber() {
+        return groupNumber;
+    }
+
+    public void setGroupNumber(Long groupNumber) {
+        this.groupNumber = groupNumber;
     }
 }

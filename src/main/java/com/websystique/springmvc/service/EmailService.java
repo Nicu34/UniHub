@@ -31,7 +31,7 @@ public class EmailService {
 
     private static final String emailSubject = "Create UniHub account";
 
-    private static final String incomingLink = "www.hellothere.com/%s";
+    private static final String incomingLink = "http://unihub.com/%s";
 
     public void sendEmailInvitation(String receivers, String userName, ProfileEnum profileEnum) throws MessagingException {
         Message message = new MimeMessage(emailSession);
@@ -48,7 +48,7 @@ public class EmailService {
         University university = user.getUniversity();
 
         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
-        message.setText(String.format(emailMessage, user.getFirstName() + " " + user.getLastName(), university.getLongName(), profileEnum.getUserProfileType().toLowerCase(), String.format(incomingLink, address)));
+        message.setText(String.format(emailMessage, user.getFirstName() + " " + user.getLastName(), university.getLongName(), profileEnum.getUserProfileType().toLowerCase(), String.format(incomingLink, address.substring(0, address.indexOf("@")))));
 
         Transport.send(message);
     }

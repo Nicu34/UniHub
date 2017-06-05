@@ -2,9 +2,9 @@ package com.websystique.springmvc.controller;
 
 import com.websystique.springmvc.converter.AdminDtoToUniversity;
 import com.websystique.springmvc.converter.AdminDtoToUser;
-import com.websystique.springmvc.dto.AdminDto;
-import com.websystique.springmvc.dto.EmailDto;
-import com.websystique.springmvc.dto.SchoolGroupDto;
+import com.websystique.springmvc.converter.CourseDtoToCourse;
+import com.websystique.springmvc.converter.NewUserDtoToUser;
+import com.websystique.springmvc.dto.*;
 import com.websystique.springmvc.model.*;
 import com.websystique.springmvc.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,8 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 
@@ -64,25 +65,49 @@ public class AppController {
 	@Autowired
 	InvitedUserService invitedUserService;
 
+	@Autowired
+	TeacherService teacherService;
+
+	@Autowired
+	StudentService studentService;
+
+	@Autowired
+	CourseService courseService;
+
 	/**
 	 * This method will list all existing users.
 	 */
-	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String listUsers(ModelMap model) throws MessagingException {
 		String userName = getPrincipal();
 		University university = userService.findBySSO(userName).getUniversity();
 		List<User> users = userService.findAllUsers(university);
-		model.addAttribute("adminUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.ADMIN).collect(Collectors.toSet()));
-		model.addAttribute("studentUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.STUDENT).collect(Collectors.toSet()));
-		model.addAttribute("teacherUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.TEACHER).collect(Collectors.toSet()));
-		model.addAttribute("loggedinuser", userName);
-		model.addAttribute("userDetails", userService.findBySSO(userName));
-		model.addAttribute("emailDto", new EmailDto());
-		model.addAttribute("groupsList", groupService.findAll(university));
-		model.addAttribute("studyYears", studyYearService.findAll(university));
-		model.addAttribute("schoolGroupDto", new SchoolGroupDto());
+		User userDetails = userService.findBySSO(userName);
 
-		return "admin";
+		model.addAttribute("userDetails", userDetails);
+		model.addAttribute("loggedinuser", userName);
+		model.addAttribute("studyYears", studyYearService.findAll(university));
+
+		if (userDetails.getProfileEnum() == ProfileEnum.ADMIN) {
+			model.addAttribute("adminUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.ADMIN).collect(Collectors.toSet()));
+			model.addAttribute("studentUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.STUDENT).collect(Collectors.toSet()));
+			model.addAttribute("teacherUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.TEACHER).collect(Collectors.toSet()));
+			model.addAttribute("emailDto", new EmailDto());
+			model.addAttribute("groupsList", groupService.findAll(university));
+			model.addAttribute("schoolGroupDto", new SchoolGroupDto());
+
+			return "admin";
+		}
+		else {
+			Teacher teacher = teacherService.findByUser(userDetails);
+
+		    model.addAttribute("courseDto", new CourseDto());
+		    model.addAttribute("courses", teacher.getCourses());
+			model.addAttribute("schedule", teacher.getScheduleLink());
+			model.addAttribute("materials", teacher.getFilesLink());
+
+			return "teacher";
+		}
 	}
 
 	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
@@ -97,23 +122,38 @@ public class AppController {
 		return "redirect:/";
 	}
 
+	@RequestMapping(value = "/addCourse", method = RequestMethod.POST)
+	public String addCourse(@ModelAttribute CourseDto courseDto) {
+		Course course = new CourseDtoToCourse().convert(courseDto);
+		User user = userService.findBySSO(getPrincipal());
+		University university = user.getUniversity();
+		StudyYear studyYear = studyYearService.findByYearAndUniversity(courseDto.getStudyYear(), university);
+		Teacher teacher = teacherService.findByUser(user);
+
+		course.setTeacher(teacher);
+		course.setStudyYear(studyYear);
+		courseService.save(course);
+
+		return "redirect:/";
+	}
+
 	@RequestMapping(value = "/inviteAdmins", method = RequestMethod.POST)
 	public String inviteAdmins(@ModelAttribute EmailDto emailDto) throws MessagingException {
-		registerTemporaryAccountAndSendEmail(emailDto.getAdminEmails(), getPrincipal(), ProfileEnum.ADMIN);
+		registerTemporaryAccountAndSendEmail(emailDto.getAdminEmails(), getPrincipal(), ProfileEnum.ADMIN, emailDto.getGroupNumber());
 
 		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/inviteTeachers", method = RequestMethod.POST)
 	public String inviteTeachers(@ModelAttribute EmailDto emailDto) throws MessagingException {
-		registerTemporaryAccountAndSendEmail(emailDto.getTeacherEmails(), getPrincipal(), ProfileEnum.TEACHER);
+		registerTemporaryAccountAndSendEmail(emailDto.getTeacherEmails(), getPrincipal(), ProfileEnum.TEACHER, emailDto.getGroupNumber());
 
 		return "redirect:/";
 	}
 
 	@RequestMapping(value = "/inviteStudents", method = RequestMethod.POST)
 	public String inviteStudents(@ModelAttribute EmailDto emailDto) throws MessagingException {
-		registerTemporaryAccountAndSendEmail(emailDto.getStudentEmails(), getPrincipal(), ProfileEnum.STUDENT);
+		registerTemporaryAccountAndSendEmail(emailDto.getStudentEmails(), getPrincipal(), ProfileEnum.STUDENT, emailDto.getGroupNumber());
 
 		return "redirect:/";
 	}
@@ -141,13 +181,13 @@ public class AppController {
 		if(!userService.isUserSSOUnique(100, admin.getUsername())){
 			FieldError ssoError =new FieldError("user","ssoId",messageSource.getMessage("non.unique.ssoId", new String[]{admin.getUsername()}, Locale.getDefault()));
 			result.addError(ssoError);
-			return "registration";
+			return "redirect:/";
 		}
 
 		User user = new AdminDtoToUser().convert(admin);
 		University university = new AdminDtoToUniversity().convert(admin);
 
-		registerNewAdmin(user, university, admin.getUniversityStudyYears());
+		registerNewAdminWithNewUniversity(user, university, admin.getUniversityStudyYears());
 
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " registered successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
@@ -156,13 +196,13 @@ public class AppController {
 	}
 
 	@Transactional
-	private void registerTemporaryAccountAndSendEmail(String invitedEmails, String loggedInUsername, ProfileEnum role) throws MessagingException {
-	    invitedUserService.saveMultipleAccounts(invitedEmails, role, userService.findBySSO(loggedInUsername).getUniversity());
+	private void registerTemporaryAccountAndSendEmail(String invitedEmails, String loggedInUsername, ProfileEnum role, Long groupNumber) throws MessagingException {
+	    invitedUserService.saveMultipleAccounts(invitedEmails, role, userService.findBySSO(loggedInUsername).getUniversity(), groupService.findByGroupNumber(groupNumber));
 	    emailService.sendEmailInvitation(invitedEmails, loggedInUsername, role);
 	}
 
 	@Transactional
-	private void registerNewAdmin(User user, University university, Integer studyYears) {
+	private void registerNewAdminWithNewUniversity(User user, University university, Integer studyYears) {
 		user.setProfileEnum(ProfileEnum.ADMIN);
 		user.setUniversity(university);
 
@@ -195,6 +235,52 @@ public class AppController {
 		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " updated successfully");
 		model.addAttribute("loggedinuser", getPrincipal());
 		return "registrationsuccess";
+	}
+
+	@RequestMapping(value = "/create-account/{account}", method = RequestMethod.GET)
+	public String initializeCreateAdminPage(@PathVariable String account, ModelMap modelMap) {
+		InvitedUser invitedUser = invitedUserService.findBySsoId(account);
+
+		modelMap.put("userDetails", invitedUser);
+		modelMap.put("newUserDto", new NewUserDto());
+
+		return "createAccount";
+	}
+
+	@RequestMapping(value = "/create-account", method = RequestMethod.POST)
+	public String createNewUserFromInvitation(@ModelAttribute NewUserDto newUserDto) {
+		User user = new NewUserDtoToUser().convert(newUserDto);
+		user.setUniversity(universityService.findByShortName(newUserDto.getShortName()));
+		registerInvitedUser(user, newUserDto.getGroupNumber());
+
+		return "redirect:/";
+	}
+
+	@Transactional
+	private void registerInvitedUser(User user, Long groupNumber) {
+		invitedUserService.deleteByEmail(user.getEmail());
+		userService.saveUser(user);
+		if (user.getProfileEnum() == ProfileEnum.STUDENT) {
+			registerInvitedStudent(user, groupService.findByGroupNumber(groupNumber));
+		}
+		else if (user.getProfileEnum() == ProfileEnum.TEACHER) {
+			registerInvitedTeacher(user);
+		}
+	}
+
+	private void registerInvitedTeacher(User user) {
+		Teacher teacher = new Teacher();
+
+		teacher.setUser(user);
+		teacherService.save(teacher);
+	}
+
+	private void registerInvitedStudent(User user, SchoolGroup group) {
+		Student student = new Student();
+
+		student.setUser(user);
+		student.setSchoolGroup(group);
+		studentService.save(student);
 	}
 
 	

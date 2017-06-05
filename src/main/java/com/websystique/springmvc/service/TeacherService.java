@@ -2,6 +2,7 @@ package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.dao.TeacherDao;
 import com.websystique.springmvc.model.Teacher;
+import com.websystique.springmvc.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class TeacherService {
 
     public Teacher findById(int id) {
         return teacherDao.findById(id);
+    }
+
+    public Teacher findByUser(User user) {
+        return teacherDao.findByUser(user);
     }
 
     public void save(Teacher teacher) {

@@ -2,6 +2,8 @@ package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.dao.CourseDao;
 import com.websystique.springmvc.model.Course;
+import com.websystique.springmvc.model.Teacher;
+import com.websystique.springmvc.model.University;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,8 +28,8 @@ public class CourseService {
         courseDao.save(course);
     }
 
-    public List<Course> findAll() {
-        return courseDao.findAllCourses();
+    public List<Course> findAll(University university, Teacher teacher) {
+        return courseDao.findAllCoursesByUniversityAndTeacher(university, teacher);
     }
 
     public void deleteById(Integer id) {

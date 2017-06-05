@@ -44,7 +44,6 @@
 <!-- /.parallax full screen background image -->
 <div class="fullscreen landing parallax" style="background-image:url('../../static/images/bg.jpg');"
      data-img-width="2000" data-img-height="1325" data-diff="100">
-
     <div class="overlay">
         <div class="container">
             <div class="row">
@@ -122,7 +121,7 @@
                                         placeholder="Email addresses to be invited" path="adminEmails"/>
                         </div>
                         <div class="form-group last">
-                            <input type="submit" class="btn btn-warning btn-block btn-lg" id="buttonInviteAdmins"
+                            <input type="submit" class="btn-primary" id="buttonInviteAdmins"
                                    value="Invite admins">
                         </div>
                     </form:form>
@@ -157,11 +156,11 @@
                                     <td>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/delete-user-${adminUser.ssoId}' />"
-                                               class="btn btn-danger custom-width">Delete</a>
+                                               class="clsActionButton" >Delete</a>
                                         </sec:authorize>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/view-user-${adminUser.ssoId}' />"
-                                               class="btn btn-success custom-width">View</a>
+                                               class="clsActionButton" >View</a>
                                         </sec:authorize>
                                     </td>
                                 </tr>
@@ -191,7 +190,7 @@
                                         placeholder="Email addresses to be invited" path="teacherEmails"/>
                         </div>
                         <div class="form-group last">
-                            <input type="submit" class="btn btn-warning btn-block btn-lg" id="buttonInviteTeachers"
+                            <input type="submit" class="btn-primary" id="buttonInviteTeachers"
                                    value="Invite teachers">
                         </div>
                     </form:form>
@@ -226,11 +225,11 @@
                                     <td>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/delete-user-${teacherUser.ssoId}' />"
-                                               class="btn btn-danger custom-width">Delete</a>
+                                               class="clsActionButton">Delete</a>
                                         </sec:authorize>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/view-user-${teacherUser.ssoId}' />"
-                                               class="btn btn-success custom-width">View</a>
+                                               class="clsActionButton">View</a>
                                         </sec:authorize>
                                     </td>
                                 </tr>
@@ -259,8 +258,16 @@
                             <form:input class="form-control input-lg" name="MERGE1" id="studentEmails" type="text"
                                         placeholder="Email addresses to be invited" path="studentEmails"/>
                         </div>
+                        <div class="form-group">
+                            <form:select path="groupNumber" class="form-control" id="groupAdminCreate" placeholder="Group number" value="Group number">
+                                <option disabled selected>Group number</option>
+                                <c:forEach items="${groupsList}" var="group">
+                                    <form:option value="${group.groupNumber}">${group.groupNumber}</form:option>
+                                </c:forEach>
+                            </form:select>
+                        </div>
                         <div class="form-group last">
-                            <input type="submit" class="btn btn-warning btn-block btn-lg" id="buttonInviteAdmins"
+                            <input type="submit" class="btn-primary" id="buttonInviteAdmins"
                                    value="Invite students">
                         </div>
                     </form:form>
@@ -270,7 +277,7 @@
             <div class="col-md-6 ">
                 <!-- /.feature 1 -->
                 <div class="fadeInRight" style="width:100%;">
-                    <h3 class="form-title text-center">Current Admin Accounts</h3>
+                    <h3 class="form-title text-center">Current Student Accounts</h3>
                     <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
                     <div class="inner" style="width:100%;">
                         <table style="margin-top:0px">
@@ -295,11 +302,11 @@
                                     <td>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/delete-user-${studentUser.ssoId}' />"
-                                               class="btn btn-danger custom-width">Delete</a>
+                                               class="clsActionButton" >Delete</a>
                                         </sec:authorize>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/view-user-${studentUser.ssoId}' />"
-                                               class="btn btn-success custom-width">View</a>
+                                               class="clsActionButton" >View</a>
                                         </sec:authorize>
                                     </td>
                                 </tr>
@@ -339,7 +346,7 @@
                                     </form:select>
                                 </div>
                                 <div class="form-group last">
-                                    <input type="submit" class="btn btn-warning btn-block btn-lg"
+                                    <input type="submit" class="btn-primary"
                                            id="buttonCreateCourse" value="Add group">
                                 </div>
                             </form:form>
@@ -368,11 +375,11 @@
                                             <td>
                                                 <sec:authorize access="hasRole('ADMIN')">
                                                     <a href="<c:url value='/delete-group-${group.groupNumber}' />"
-                                                       class="btn btn-danger custom-width">Delete</a>
+                                                       class="clsActionButton">Delete</a>
                                                 </sec:authorize>
                                                 <sec:authorize access="hasRole('ADMIN')">
                                                     <a href="<c:url value='/view-group-${group.groupNumber}' />"
-                                                       class="btn btn-success custom-width">View</a>
+                                                       class="clsActionButton">View</a>
                                                 </sec:authorize>
                                             </td>
                                         </tr>
@@ -383,8 +390,6 @@
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>

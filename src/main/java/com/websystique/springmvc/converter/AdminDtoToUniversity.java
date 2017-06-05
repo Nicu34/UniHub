@@ -18,6 +18,7 @@ public class AdminDtoToUniversity implements Converter<AdminDto, University> {
         university.setAddress(source.getUniversityAddress());
         university.setCity(source.getUniversityCity());
         university.setPhone(source.getUniversityPhone());
+        university.setEmail(source.getUserEmail());
 
         return university;
     }

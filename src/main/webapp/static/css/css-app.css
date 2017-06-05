@@ -872,3 +872,21 @@ and (orientation : landscape) {
 	}
 
 }
+
+.clsActionButton {
+	
+	color: white;
+	background-color: #3eb0f7;
+  	border: 0px solid #3eb0f7;
+	border-radius: 10px;
+	outline:none;
+}
+.clsActionButton:hover,
+.clsActionButton.hover {
+  opacity: 0.6;
+}
+
+.clsActionButton:active,
+.clsActionButton.active{
+	 outline: none;
+}

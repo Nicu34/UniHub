@@ -61,7 +61,7 @@ public class UserService {
 	}
 
 	public boolean isUserSSOUnique(Integer id, String sso) {
-		User user = findBySSO(sso);
+		User user = userDao.findOnlyBySSO(sso);
 		return ( user == null || ((id != null) && (user.getId() == id)));
 	}
 }

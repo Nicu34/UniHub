@@ -58,7 +58,7 @@
                     <!-- /.header paragraph -->
                     <div class="landing-text wow fadeInUp">
                         <p>UniHub is a cross-platform application aiming to simplify the way both students and teachers
-                            manage and keep track of their university tasks/schedule.</p>
+                            manage and keep track of their shortName tasks/schedule.</p>
                     </div>
 
                     <!-- /.header button -->
@@ -141,7 +141,7 @@
             <!-- /.intro content -->
             <div class="col-md-6 wow slideInRight">
                 <h2>Easy management</h2>
-                <p>An easy way to manage everything regarding university , such as attendences , grades, groups, files
+                <p>An easy way to manage everything regarding shortName , such as attendences , grades, groups, files
                     ,schedule and any problems .
                 </p>
 
@@ -201,7 +201,7 @@
                     <i class="pe-7s-upload pe-5x pe-va wow fadeInUp" data-wow-delay="0.4s"></i>
                     <div class="inner">
                         <h4>Upload</h4>
-                        <p>A single platform for uploading files,tasks,projects,feedback,any university files and even
+                        <p>A single platform for uploading files,tasks,projects,feedback,any shortName files and even
                             asking questions and giving answers and ratings .</p>
                     </div>
                 </div>

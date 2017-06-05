@@ -31,6 +31,9 @@ public class InvitedUser implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private University university;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private SchoolGroup schoolGroup;
+
     public Integer getId() {
         return id;
     }
@@ -69,5 +72,13 @@ public class InvitedUser implements Serializable {
 
     public void setUniversity(University university) {
         this.university = university;
+    }
+
+    public SchoolGroup getSchoolGroup() {
+        return schoolGroup;
+    }
+
+    public void setSchoolGroup(SchoolGroup schoolGroup) {
+        this.schoolGroup = schoolGroup;
     }
 }

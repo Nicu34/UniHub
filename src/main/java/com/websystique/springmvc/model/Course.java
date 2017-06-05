@@ -20,8 +20,17 @@ public class Course {
     private String syllabus;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
     private Teacher teacher;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
+    private StudyYear studyYear;
+
+    @NotNull
+    private String courseMaterialsLink;
 
     public Integer getId() {
         return id;
@@ -53,5 +62,21 @@ public class Course {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public String getCourseMaterialsLink() {
+        return courseMaterialsLink;
+    }
+
+    public void setCourseMaterialsLink(String courseMaterialsLink) {
+        this.courseMaterialsLink = courseMaterialsLink;
+    }
+
+    public StudyYear getStudyYear() {
+        return studyYear;
+    }
+
+    public void setStudyYear(StudyYear studyYear) {
+        this.studyYear = studyYear;
     }
 }

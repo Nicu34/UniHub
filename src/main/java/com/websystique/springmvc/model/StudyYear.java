@@ -46,4 +46,24 @@ public class StudyYear {
     public void setUniversity(University university) {
         this.university = university;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StudyYear studyYear = (StudyYear) o;
+
+        if (id != null ? !id.equals(studyYear.id) : studyYear.id != null) return false;
+        if (year != null ? !year.equals(studyYear.year) : studyYear.year != null) return false;
+        return university != null ? university.equals(studyYear.university) : studyYear.university == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (year != null ? year.hashCode() : 0);
+        result = 31 * result + (university != null ? university.hashCode() : 0);
+        return result;
+    }
 }

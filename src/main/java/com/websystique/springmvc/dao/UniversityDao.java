@@ -4,6 +4,7 @@ import com.websystique.springmvc.model.University;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,16 @@ public class UniversityDao extends AbstractDao<Integer, University> {
 
     public University findById(Integer id) {
         University university = getByKey(id);
+        if (university != null) {
+            Hibernate.initialize(university.getStudyYears());
+        }
+        return university;
+    }
+
+    public University findByShortName(String shortName) {
+        Criteria crit = createEntityCriteria();
+        crit.add(Restrictions.eq("shortName", shortName));
+        University university = (University) crit.uniqueResult();
         if (university != null) {
             Hibernate.initialize(university.getStudyYears());
         }
