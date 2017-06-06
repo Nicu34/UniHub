@@ -18,7 +18,7 @@ public class SchoolGroup {
     @NotNull
     private Long groupNumber;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private StudyYear studyYear;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

@@ -17,6 +17,7 @@ public class AdminDto {
     private String universityAddress;
     private String universityPhone;
     private Integer universityStudyYears;
+    private String universityScheduleLink;
 
     public String getUsername() {
         return username;
@@ -120,5 +121,13 @@ public class AdminDto {
 
     public void setUserPhotoLink(String userPhotoLink) {
         this.userPhotoLink = userPhotoLink;
+    }
+
+    public String getUniversityScheduleLink() {
+        return universityScheduleLink;
+    }
+
+    public void setUniversityScheduleLink(String universityScheduleLink) {
+        this.universityScheduleLink = universityScheduleLink;
     }
 }

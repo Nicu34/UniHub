@@ -98,6 +98,14 @@ public class AppController {
 
 			return "admin";
 		}
+		else if (userDetails.getProfileEnum() == ProfileEnum.STUDENT) {
+		    Student student = studentService.findByUser(userDetails);
+
+			model.addAttribute("student", student);
+			model.addAttribute("courses", student.getSchoolGroup().getStudyYear().getCourseList());
+
+			return "student";
+		}
 		else {
 			Teacher teacher = teacherService.findByUser(userDetails);
 

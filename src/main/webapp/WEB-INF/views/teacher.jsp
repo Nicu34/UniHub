@@ -209,13 +209,22 @@
             <!-- /.social links -->
             <div class="social text-center">
                 <ul>
-                    <li><a class="wow fadeInUp" href="https://twitter.com/"><i class="fa fa-twitter"></i></a></li>
-                    <li><a class="wow fadeInUp" href="https://www.facebook.com/" data-wow-delay="0.2s"><i
-                            class="fa fa-facebook"></i></a></li>
-                    <li><a class="wow fadeInUp" href="https://plus.google.com/" data-wow-delay="0.4s"><i
-                            class="fa fa-google-plus"></i></a></li>
-                    <li><a class="wow fadeInUp" href="https://instagram.com/" data-wow-delay="0.6s"><i
-                            class="fa fa-instagram"></i></a></li>
+                    <li><a class="wow fadeInUp" href="https://twitter.com/">
+                        <img class="fa fa-twitter"
+                             src="../../static/images/twitter-512.png"
+                             style="width: 14px; height: 14px; margin-bottom: 4px;"/></a></li>
+                    <li><a class="wow fadeInUp" href="https://www.facebook.com/UniHubb/" data-wow-delay="0.2s">
+                        <img src="../../static/images/4c25d18059353799aff91dcdd8f19bb4.png"
+                             style="width: 19px; height: 20px; margin-bottom: 5px;"
+                             class="fa fa-facebook"/></a></li>
+                    <li><a class="wow fadeInUp" href="https://plus.google.com/" data-wow-delay="0.4s">
+                        <img src="../../static/images/google-plus-google-icon.png"
+                             style="width: 15px; height: 15px; margin-bottom: 5px;"
+                             class="fa fa-google-plus"/></a></li>
+                    <li><a class="wow fadeInUp" href="https://instagram.com/" data-wow-delay="0.6s">
+                        <img src="../../static/images/824273_original_512x512.png"
+                             style="width: 30px; height: 28px; margin-bottom: 11px;"
+                             class="fa fa-instagram"/></a></li>
                 </ul>
             </div>
             <div class="text-center wow fadeInUp" style="font-size: 14px;">Copyright UniHub 2017</div>

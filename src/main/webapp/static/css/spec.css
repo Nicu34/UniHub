@@ -3,11 +3,6 @@
     /*border: 1px solid black;*/
 /*}*/
 
-td{
-	color:#524644;
-	font: Arial, Helvetica, sans-serif;
-}
-
 body {
     background: #fafafa url(http://jackrugile.com/images/misc/noise-diagonal.png);
     color: #444;
@@ -27,7 +22,7 @@ table {
     background: #f5f5f5;
     border-collapse: separate;
     box-shadow: inset 0 1px 0 #fff;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 24px;
     margin: 30px auto;
     text-align: left;
@@ -43,7 +38,7 @@ th {
     box-shadow: inset 0 1px 0 #999;
     color: #fff;
     font-weight: bold;
-    padding: 10px 15px;
+    padding: 10px 10px;
     position: relative;
     text-shadow: 0 1px 0 #000;
 }
@@ -74,7 +69,7 @@ td {
     border-left: 1px solid #e8e8e8;
     border-top: 1px solid #fff;
     border-bottom: 1px solid #e8e8e8;
-    padding: 10px 15px;
+    padding: 10px 10px 5px;
     position: relative;
     transition: all 300ms;
 }
@@ -122,4 +117,11 @@ table-enroll.show{
 }
 .table-enroll{
     display: none;
+}
+.scroll{
+    overflow-y: scroll;
+    /*overflow: scroll;*/
+    overflow-x: hidden;
+    height: 300px;
+    margin-right: 0;
 }

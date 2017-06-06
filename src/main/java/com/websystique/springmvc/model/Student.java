@@ -14,7 +14,7 @@ public class Student {
     private Integer id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private SchoolGroup schoolGroup;
 
     @NotNull

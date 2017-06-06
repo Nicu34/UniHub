@@ -23,7 +23,6 @@ public class TeacherDao extends AbstractDao<Integer, Teacher> {
         Teacher teacher = getByKey(id);
         if (teacher != null) {
             Hibernate.initialize(teacher.getCourses());
-            Hibernate.initialize(teacher.getSchoolGroups());
         }
 
         return teacher;
@@ -36,7 +35,6 @@ public class TeacherDao extends AbstractDao<Integer, Teacher> {
 
         if (teacher != null) {
             Hibernate.initialize(teacher.getCourses());
-            Hibernate.initialize(teacher.getSchoolGroups());
         }
 
         return teacher;

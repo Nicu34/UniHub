@@ -2,6 +2,8 @@ package com.websystique.springmvc.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nicu on 5/20/2017.
@@ -19,6 +21,9 @@ public class StudyYear {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private University university;
+
+    @OneToMany(mappedBy = "studyYear")
+    private List<Course> courseList = new ArrayList<>();
 
     public StudyYear() {
     }
@@ -65,5 +70,13 @@ public class StudyYear {
         result = 31 * result + (year != null ? year.hashCode() : 0);
         result = 31 * result + (university != null ? university.hashCode() : 0);
         return result;
+    }
+
+    public List<Course> getCourseList() {
+        return courseList;
+    }
+
+    public void setCourseList(List<Course> courseList) {
+        this.courseList = courseList;
     }
 }

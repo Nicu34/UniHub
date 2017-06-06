@@ -343,6 +343,10 @@
                                    placeholder="Phone" path="universityPhone"/>
                         </div>
                         <div class="form-group">
+                            <form:input type="text" name="ScheduleLink" class="form-control wow fadeInUp"
+                                        placeholder="Schedule Link" path="universityScheduleLink"/>
+                        </div>
+                        <div class="form-group">
                             <input type="submit" class="btn btn-success wow fadeInUp" value="Submit" name="REGISTER"/>
                         </div>
                     </form:form>

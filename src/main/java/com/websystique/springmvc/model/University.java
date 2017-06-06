@@ -35,6 +35,8 @@ public class University {
     @NotNull
     private String email;
 
+    private String scheduleLink;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StudyYear> studyYears = new ArrayList<>();
 
@@ -131,5 +133,13 @@ public class University {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getScheduleLink() {
+        return scheduleLink;
+    }
+
+    public void setScheduleLink(String scheduleLink) {
+        this.scheduleLink = scheduleLink;
     }
 }
