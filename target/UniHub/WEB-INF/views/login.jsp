@@ -29,6 +29,9 @@
     <link rel="stylesheet"
           href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
 
+    <!-- Chat ref -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">
+    <script src="https://cdn.conversejs.org/dist/converse.min.js"></script>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -374,4 +377,14 @@
     new WOW().init();
 </script>
 </body>
+<!-- Chat initializer -->
+<script>
+    converse.initialize({
+        bosh_service_url: 'https://conversejs.org/http-bind/',
+        show_controlbox_by_default: true,
+        allow_registration: false,
+        locked_domain: '007jabber.com',
+        hide_muc_server: true
+    });
+</script>
 </html>

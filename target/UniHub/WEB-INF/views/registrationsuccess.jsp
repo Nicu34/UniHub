@@ -9,6 +9,10 @@
 	<title>Registration Confirmation Page</title>
 	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
+
+	<!-- Chat ref -->
+	<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">
+	<script src="https://cdn.conversejs.org/dist/converse.min.js"></script>
 </head>
 <body>
 	<div class="generic-container">
@@ -23,5 +27,14 @@
 		</span>
 	</div>
 </body>
-
+<!-- Chat initializer -->
+<script>
+	converse.initialize({
+		bosh_service_url: 'https://conversejs.org/http-bind/',
+		show_controlbox_by_default: true,
+		allow_registration: false,
+		locked_domain: '007jabber.com',
+		hide_muc_server: true
+	});
+</script>
 </html>
