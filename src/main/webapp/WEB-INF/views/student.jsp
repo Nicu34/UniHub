@@ -58,7 +58,7 @@
                             <div class="landing-text wow fadeInLeft">
                                 <p>First Name: ${userDetails.firstName}</p>
                                 <p>Last Name: ${userDetails.lastName}</p>
-                                <p>University: ${userDetails.university.longName}</p>
+                                <p><a href="<c:url value='/view-university-${userDetails.university.id}'/>">University: ${userDetails.university.longName}</a></p>
                                 <p>Year of study: ${student.schoolGroup.studyYear.year}</p>
                                 <p>Group: ${student.schoolGroup.groupNumber}</p>
                             </div>

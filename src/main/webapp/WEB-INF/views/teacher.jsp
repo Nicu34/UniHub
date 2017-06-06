@@ -64,6 +64,7 @@
                         <p>E-mail: ${userDetails.email}</p>
                         <p>Phone: ${userDetails.phone}</p>
                     </div>
+                    <p><a href="<c:url value='/view-university-${student.user.university.id}'/>">University: ${userDetails.university.longName}</a></p>
                 </div>
 
                 <!--/.phone image-->

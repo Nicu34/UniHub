@@ -14,7 +14,8 @@ public class Student {
     private Integer id;
 
     @NotNull
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
     private SchoolGroup schoolGroup;
 
     @NotNull

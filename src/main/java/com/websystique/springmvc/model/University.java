@@ -40,7 +40,7 @@ public class University {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<StudyYear> studyYears = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Course> courses = new ArrayList<>();
 
     public Integer getId() {

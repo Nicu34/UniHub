@@ -156,11 +156,11 @@
                                     <td>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/delete-user-${adminUser.ssoId}' />"
-                                               class="clsActionButton" >Delete</a>
+                                               class="clsActionButton">Delete</a>
                                         </sec:authorize>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/view-user-${adminUser.ssoId}' />"
-                                               class="clsActionButton" >View</a>
+                                               class="clsActionButton">View</a>
                                         </sec:authorize>
                                     </td>
                                 </tr>
@@ -259,7 +259,8 @@
                                         placeholder="Email addresses to be invited" path="studentEmails"/>
                         </div>
                         <div class="form-group">
-                            <form:select path="groupNumber" class="form-control" id="groupAdminCreate" placeholder="Group number" value="Group number">
+                            <form:select path="groupNumber" class="form-control" id="groupAdminCreate"
+                                         placeholder="Group number" value="Group number">
                                 <option disabled selected>Group number</option>
                                 <c:forEach items="${groupsList}" var="group">
                                     <form:option value="${group.groupNumber}">${group.groupNumber}</form:option>
@@ -302,11 +303,11 @@
                                     <td>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/delete-user-${studentUser.ssoId}' />"
-                                               class="clsActionButton" >Delete</a>
+                                               class="clsActionButton">Delete</a>
                                         </sec:authorize>
                                         <sec:authorize access="hasRole('ADMIN')">
                                             <a href="<c:url value='/view-user-${studentUser.ssoId}' />"
-                                               class="clsActionButton" >View</a>
+                                               class="clsActionButton">View</a>
                                         </sec:authorize>
                                     </td>
                                 </tr>
@@ -332,13 +333,15 @@
                         <!-- /.feature image -->
                         <div class="signup-header wow fadeInUp">
                             <h3 class="form-title text-center">Add new group class</h3>
-                            <form:form class="form-header" action="addGroup" modelAttribute="schoolGroupDto" method="POST">
+                            <form:form class="form-header" action="addGroup" modelAttribute="schoolGroupDto"
+                                       method="POST">
                                 <div class="form-group">
                                     <form:input class="form-control input-lg" id="addGroupID" type="text"
-                                           placeholder="Group number" path="groupName"/>
+                                                placeholder="Group number" path="groupName"/>
                                 </div>
                                 <div class="form-group">
-                                    <form:select path="studyYear" class="form-control" id="groupAdminCreate" placeholder="Study Year" value="Study Year">
+                                    <form:select path="studyYear" class="form-control" id="groupAdminCreate"
+                                                 placeholder="Study Year" value="Study Year">
                                         <option disabled selected>Study Year</option>
                                         <c:forEach items="${studyYears}" var="studyYearVar">
                                             <form:option value="${studyYearVar.year}">${studyYearVar.year}</form:option>
@@ -364,7 +367,7 @@
                                     <tr>
                                         <th>Group Number</th>
                                         <th>Study Year</th>
-                                        <th>Manage groups</th>
+                                        <th>View group details</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -374,11 +377,7 @@
                                             <td><strong>${group.studyYear.year}</strong></td>
                                             <td>
                                                 <sec:authorize access="hasRole('ADMIN')">
-                                                    <a href="<c:url value='/delete-group-${group.groupNumber}' />"
-                                                       class="clsActionButton">Delete</a>
-                                                </sec:authorize>
-                                                <sec:authorize access="hasRole('ADMIN')">
-                                                    <a href="<c:url value='/view-group-${group.groupNumber}' />"
+                                                    <a href="<c:url value='/view-group-${group.id}' />"
                                                        class="clsActionButton">View</a>
                                                 </sec:authorize>
                                             </td>

@@ -57,7 +57,7 @@
                     </h1>
                     <div class="landing-text wow fadeInLeft">
                         <p>Account :<label id="account">${userDetails.ssoId}</label></p>
-                        <p>University :<label id="shortName">${userDetails.university.longName}</label></p>
+                        <p><a href="<c:url value='/view-university-${userDetails.university.id}'/>">University: ${userDetails.university.longName}</a></p>
                         <p>Email :<label id="email">${userDetails.email}</label></p>
                         <p>Role :<label id="position">${userDetails.profileEnum}</label></p>
                     </div>
@@ -72,7 +72,6 @@
                             ${userDetails.university.phone}
                         </li>
                         <li><i class="pe-7s-mail"></i>${userDetails.university.email}</li>
-                        <li><i class="pe-7s-look"></i><a href="#">www.yoursite.com</a></li>
                     </ul>
                 </div>
             </div>
@@ -122,7 +121,8 @@
                             <form:input type="hidden" value="${userDetails.ssoId}" path="ssoId"/>
                             <form:input type="hidden" value="${userDetails.university.shortName}" path="shortName"/>
                             <form:input type="hidden" value="${userDetails.profileEnum}" path="profileEnum"/>
-                            <form:input type="hidden" value="${userDetails.schoolGroup.groupNumber}" path="groupNumber"/>
+                            <form:input type="hidden" value="${userDetails.schoolGroup.groupNumber}"
+                                        path="groupNumber"/>
                             <form:input class="form-control input-lg" name="MERGE1" id="firstName" type="text"
                                         placeholder="First name" path="firstName"/>
                             <form:input class="form-control input-lg" name="MERGE1" id="lastName" type="text"
@@ -133,6 +133,12 @@
                                         placeholder="Account password" path="password"/>
                             <form:input class="form-control input-lg" name="MERGE1" id="photoLink" type="text"
                                         placeholder="Web link to your photo" path="photoLink"/>
+                            <c:if test="${userDetails.profileEnum =='TEACHER'}">
+                                <form:input class="form-control input-lg" name="MERGE1" id="scheduleLink" type="text"
+                                            placeholder="Schedule link" path="scheduleLink"/>
+                                <form:input class="form-control input-lg" name="MERGE1" id="filesLink" type="text"
+                                            placeholder="Files link" path="filesLink"/>
+                            </c:if>
                         </div>
                         <div class="form-group last">
                             <input type="submit" class="btn btn-warning btn-block btn-lg" id="buttonInviteAdmins"

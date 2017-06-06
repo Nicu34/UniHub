@@ -16,6 +16,8 @@ public class NewUserDto {
     private String shortName;
     private ProfileEnum profileEnum;
     private Long groupNumber;
+    private String scheduleLink;
+    private String filesLink;
 
     public String getSsoId() {
         return ssoId;
@@ -95,5 +97,21 @@ public class NewUserDto {
 
     public void setGroupNumber(Long groupNumber) {
         this.groupNumber = groupNumber;
+    }
+
+    public String getScheduleLink() {
+        return scheduleLink;
+    }
+
+    public void setScheduleLink(String scheduleLink) {
+        this.scheduleLink = scheduleLink;
+    }
+
+    public String getFilesLink() {
+        return filesLink;
+    }
+
+    public void setFilesLink(String filesLink) {
+        this.filesLink = filesLink;
     }
 }

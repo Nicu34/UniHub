@@ -32,6 +32,10 @@ public class CourseService {
         return courseDao.findAllCoursesByUniversityAndTeacher(university, teacher);
     }
 
+    public List<Course> findAll(University university) {
+        return courseDao.findAllCourses(university);
+    }
+
     public void deleteById(Integer id) {
         courseDao.deleteById(id);
     }

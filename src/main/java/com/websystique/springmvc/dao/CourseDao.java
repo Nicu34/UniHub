@@ -41,4 +41,13 @@ public class CourseDao extends AbstractDao<Integer, Course> {
 
         return (List<Course>) criteria.list();
     }
+
+    @SuppressWarnings("unchecked")
+    public List<Course> findAllCourses(University university) {
+        Criteria criteria = createEntityCriteria();
+        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+        criteria.add(Restrictions.eq("university", university));
+
+        return ((List<Course>) criteria.list());
+    }
 }

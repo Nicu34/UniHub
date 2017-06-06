@@ -25,8 +25,7 @@ import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -218,6 +217,59 @@ public class AppController {
 		userService.saveUser(user);
 	}
 
+	@RequestMapping(value = "/view-group-{id}", method = RequestMethod.GET)
+	public String viewGroupDetails(@PathVariable Integer id, ModelMap model) {
+		SchoolGroup schoolGroup = groupService.findById(id);
+
+		model.addAttribute("group", schoolGroup);
+
+		return "groupDetails";
+	}
+
+	@RequestMapping(value = "/view-student-{id}", method = RequestMethod.GET)
+	public String viewStudentDetails(@PathVariable Integer id, ModelMap model) {
+		Student student = studentService.findById(id);
+
+		model.addAttribute("student", student);
+
+		return "studentDetails";
+	}
+
+	@RequestMapping(value = "/view-course-{id}", method = RequestMethod.GET)
+	public String viewCourseDetails(@PathVariable Integer id, ModelMap modelMap) {
+		modelMap.addAttribute("course", courseService.findById(id));
+
+		return "courseDetails";
+	}
+
+	@RequestMapping(value = "/view-university-{id}", method = RequestMethod.GET)
+	public String viewUniversityDetails(@PathVariable Integer id, ModelMap modelMap) {
+		University university = universityService.findById(id);
+		List<Teacher> teachers = userService.findAllUsers(university).stream().filter(user -> user.getProfileEnum() == ProfileEnum.TEACHER).map(user -> teacherService.findByUser(user)).filter(Objects::nonNull).collect(Collectors.toList());
+		List<Course> courses = new ArrayList<>();
+
+		for (Teacher teacher : teachers) {
+		    if (teacher != null) {
+				courses.addAll(teacher.getCourses());
+			}
+		}
+
+		modelMap.addAttribute("university", university);
+		modelMap.addAttribute("courses", new HashSet<>(courses));
+		modelMap.addAttribute("teachers", teachers);
+
+		return "universityDetails";
+	}
+
+	@RequestMapping(value = "/view-teacher-{id}", method = RequestMethod.GET)
+	public String viewTeacherDetails(@PathVariable Integer id, ModelMap modelMap) {
+		Teacher teacher = teacherService.findById(id);
+
+		modelMap.addAttribute("teacher", teacher);
+
+		return "teacherDetails";
+	}
+
 	/**
 	 * This method will provide the medium to update an existing user.
 	 */
@@ -255,31 +307,34 @@ public class AppController {
 		return "createAccount";
 	}
 
+
 	@RequestMapping(value = "/create-account", method = RequestMethod.POST)
 	public String createNewUserFromInvitation(@ModelAttribute NewUserDto newUserDto) {
 		User user = new NewUserDtoToUser().convert(newUserDto);
 		user.setUniversity(universityService.findByShortName(newUserDto.getShortName()));
-		registerInvitedUser(user, newUserDto.getGroupNumber());
+		registerInvitedUser(user, newUserDto.getGroupNumber(), newUserDto.getScheduleLink(), newUserDto.getFilesLink());
 
 		return "redirect:/";
 	}
 
 	@Transactional
-	private void registerInvitedUser(User user, Long groupNumber) {
+	private void registerInvitedUser(User user, Long groupNumber, String scheduleLink, String filesLink) {
 		invitedUserService.deleteByEmail(user.getEmail());
 		userService.saveUser(user);
 		if (user.getProfileEnum() == ProfileEnum.STUDENT) {
 			registerInvitedStudent(user, groupService.findByGroupNumber(groupNumber));
 		}
 		else if (user.getProfileEnum() == ProfileEnum.TEACHER) {
-			registerInvitedTeacher(user);
+			registerInvitedTeacher(user, scheduleLink, filesLink);
 		}
 	}
 
-	private void registerInvitedTeacher(User user) {
+	private void registerInvitedTeacher(User user, String scheduleLink, String filesLink) {
 		Teacher teacher = new Teacher();
 
 		teacher.setUser(user);
+		teacher.setFilesLink(filesLink);
+		teacher.setScheduleLink(scheduleLink);
 		teacherService.save(teacher);
 	}
 

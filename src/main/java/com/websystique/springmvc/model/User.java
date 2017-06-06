@@ -43,7 +43,7 @@ public class User implements Serializable{
 	@NotNull
 	private ProfileEnum profileEnum = ProfileEnum.ADMIN;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private University university;
 
 	public Integer getId() {

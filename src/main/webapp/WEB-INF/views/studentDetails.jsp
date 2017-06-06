@@ -53,12 +53,12 @@
                         <div class="col-md-7">
                             <div class="logo wow fadeInDown" style="margin-top: 8%;"> <a href=""><img src="../../static/images/white-logo.png" alt="logo" style="height: 120px;width: 250px;"></a></div>
                             <h1 class="wow fadeInLeft" style="margin-top: 60px;">
-                                Details
+                                Student Details
                             </h1>
                             <div class="landing-text wow fadeInLeft">
-                                <p>First Name: ${userDetails.firstName}</p>
-                                <p>Last Name: ${userDetails.lastName}</p>
-                                <p><a href="<c:url value='/view-university-${userDetails.university.id}'/>">University: ${userDetails.university.longName}</a></p>
+                                <p>First Name: ${student.user.firstName}</p>
+                                <p>Last Name: ${student.user.lastName}</p>
+                                <p><a href="<c:url value='/view-university-${student.user.university.id}'/>">University: ${student.user.university.longName}</a></p>
                                 <p>Year of study: ${student.schoolGroup.studyYear.year}</p>
                                 <p>Group: ${student.schoolGroup.groupNumber}</p>
                             </div>
@@ -66,88 +66,11 @@
 
                          <!--/.phone image-->
                         <div class="col-md-5">
-                            <img src="${userDetails.photoLink}" alt="phone" style="margin-top: 150px;" class="header-phone img-responsive wow fadeInRight">
+                            <img src="${student.user.photoLink}" alt="phone" style="margin-top: 150px;" class="header-phone img-responsive wow fadeInRight">
                         </div>
                     </div>
                 </div> 
             </div> 
-        </div>
-
-        <!-- NAVIGATION -->
-        <div id="menu">
-            <nav class="navbar-wrapper navbar-default" role="navigation">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-backyard">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand site-name" href="#top"><img src="../../static/images/logo5.png" alt="logo" style="height: 50px;"></a>
-                    </div>
-
-                    <div id="navbar-scroll" class="collapse navbar-collapse navbar-backyard navbar-right">
-                        <ul class="nav navbar-nav" style="text-align: center;">
-                            <li><a href="#feature0">Academic situation</a></li>
-                            <li><a href="#feature1">Schedule</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </div>
-
-        <div id="feature0" style="padding-top:60px;padding-bottom: 60px;">
-            <div class="container">
-                <div class="row row-feat" style="padding-top:0px">
-                    <div class="col-md-6 ">
-                        <!-- /.feature 1 -->
-                        <div class="fadeInRight" style="width:100%;">
-                            <h3 class="form-title text-center">Academic situation</h3>
-                            <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
-                            <div class="inner" style="width:100%;">
-                                <table style="margin-top:0px">
-                                    <thead>
-                                    <tr>
-                                        <th>Course</th>
-                                        <th>Teacher</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <c:forEach items="${courses}" var="course">
-                                        <tr>
-                                            <td>${course.name}</td>
-                                            <td>${course.teacher.user.firstName} ${course.teacher.user.lastName}</td>
-                                        </tr>
-                                    </c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- /.feature 2 section -->
-        <div id="feature1">
-            <div class="container">
-                <div class="row">
-
-                    <!-- /.feature content -->
-                    <div class="col-md-6 wow fadeInLeft">
-                        <h2>Schedule</h2>
-                        <p>See the academic schedule of the current year for students, teachers and also the rooms schedule. </p>
-                        <div class="btn-section"><a href="${userDetails.university.scheduleLink}" style="margin-left: 120px;" class="btn-default">University Schedule</a></div>
-                    </div>
-
-                    <!-- /.feature image -->
-                    <div class="col-md-6 feature-2-pic wow fadeInRight">
-                        <img src="../../static/images/collegestudents.jpg" alt="image" class="img-responsive">
-                    </div>				  
-                </div>			  
-
-            </div>
         </div>
 
         <!-- /.footer -->

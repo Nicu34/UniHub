@@ -21,7 +21,7 @@ public class SchoolGroup {
     @ManyToOne(cascade = CascadeType.MERGE)
     private StudyYear studyYear;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "schoolGroup")
     private List<Student> students = new ArrayList<>();
 
     public Integer getId() {

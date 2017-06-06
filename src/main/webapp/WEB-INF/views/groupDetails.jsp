@@ -55,21 +55,16 @@
                             src="../../static/images/white-logo.png" alt="logo" style="height: 80%;width: 40%;"></a>
                     </div>
                     <h1 class="wow fadeInLeft" style="margin-top: 0%">
-                        ${userDetails.firstName} ${userDetails.lastName}
+                        Group: ${group.groupNumber}
                     </h1>
                     <h2 class="wow fadeInLeft" style="color: white">
-                        Teacher
+                        Year: ${group.studyYear.year}
                     </h2>
-                    <div class="landing-text wow fadeInLeft">
-                        <p>E-mail: ${userDetails.email}</p>
-                        <p>Phone: ${userDetails.phone}</p>
-                    </div>
-                    <p><a href="<c:url value='/view-university-${student.user.university.id}'/>">University: ${userDetails.university.longName}</a></p>
                 </div>
 
                 <!--/.phone image-->
                 <div class="col-md-5">
-                    <img src=${userDetails.photoLink} alt="phone" style="margin-top: 20%; width: 50%; height: 80%;"
+                    <img src="http://cfile4.uf.tistory.com/image/262C6F34580573DF079220" style="margin-top: 20%; width: 50%; height: 80%;"
                          class="header-phone img-responsive wow fadeInRight">
                 </div>
             </div>
@@ -93,9 +88,7 @@
 
             <div id="navbar-scroll" class="collapse navbar-collapse navbar-backyard navbar-right">
                 <ul class="nav navbar-nav" style="text-align: center;">
-                    <li><a href="#feature">Courses</a></li>
-                    <li><a href="#feature1">Schedule</a></li>
-                    <li><a href="#feature2">Public files</a></li>
+                    <li><a href="#feature">Group students</a></li>
                 </ul>
             </div>
         </div>
@@ -106,70 +99,32 @@
 <div id="feature1" style="padding-top:60px;padding-bottom: 60px;">
     <div class="container">
         <div class="row row-feat" style="padding-top:0px">
-            <div class="col-md-6 text-center">
-
-                <!-- /.feature image -->
-                <div class="signup-header wow fadeInUp">
-                    <h3 class="form-title text-center">Invite people to create admin account</h3>
-                    <form:form method="POST" class="form-header" action="addCourse" role="form"
-                               modelAttribute="courseDto">
-                        <div class="form-group">
-                            <form:input class="form-control input-lg" name="MERGE1" id="teacherEmails" type="text"
-                                        placeholder="Course name" path="courseName"/>
-                            <form:input class="form-control input-lg" name="MERGE1" id="teacherEmails" type="text"
-                                        placeholder="Syllabus link" path="syllabusLink"/>
-                            <form:input class="form-control input-lg" name="MERGE1" id="teacherEmails" type="text"
-                                        placeholder="Course materials link" path="courseMaterialsLink"/>
-                            <div class="form-group">
-                                <form:select path="studyYear" class="form-control" id="groupAdminCreate"
-                                             placeholder="Study Year" value="Study Year">
-                                    <option disabled selected>Study Year</option>
-                                    <c:forEach items="${studyYears}" var="studyYearVar">
-                                        <form:option value="${studyYearVar.year}">${studyYearVar.year}</form:option>
-                                    </c:forEach>
-                                </form:select>
-                            </div>
-                        </div>
-                        <div class="form-group last">
-                            <input type="submit" class="btn-primary" id="buttonInviteTeachers"
-                                   value="Add course">
-                        </div>
-                    </form:form>
-                </div>
-            </div>
-
             <div class="col-md-6 ">
                 <!-- /.feature 1 -->
                 <div class="fadeInRight" style="width:100%;">
-                    <h3 class="form-title text-center">Owned courses</h3>
+                    <h3 class="form-title text-center">Students of group ${group.groupNumber}</h3>
                     <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
                     <div class="inner" style="width:100%;">
                         <table style="margin-top:0px">
                             <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Syllabus</th>
-                                <th>Files</th>
-                                <th>Study Year</th>
-                                <th>Manage courses</th>
+                                <th>First name</th>
+                                <th>Last name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>View details</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${courses}" var="course">
+                            <c:forEach items="${group.students}" var="student">
                                 <tr>
-                                    <td><strong>${course.name}</strong></td>
-                                    <td><a href="${course.syllabus}">Syllabus Link</a></td>
-                                    <td><a href="${course.courseMaterialsLink}">Materials Link</a></td>
-                                    <td>${course.studyYear.year}</td>
+                                    <td><strong>${student.user.firstName}</strong></td>
+                                    <td><strong>${student.user.lastName}</strong></td>
+                                    <td>${student.user.email}</td>
+                                    <td>${student.user.phone}</td>
                                     <td>
-                                        <sec:authorize access="hasRole('TEACHER')">
-                                            <a href="<c:url value='/delete-course-${course.name}' />"
-                                               class="clsActionButton">Delete</a>
-                                        </sec:authorize>
-                                        <sec:authorize access="hasRole('TEACHER')">
-                                            <a href="<c:url value='/view-course-${course.name}' />"
+                                            <a href="<c:url value='/view-student-${student.id}' />"
                                                class="clsActionButton">View</a>
-                                        </sec:authorize>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -177,27 +132,6 @@
                         </table>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- /.feature 2 section -->
-<div id="feature2">
-    <div class="container">
-        <div class="row">
-            <!-- /.feature content -->
-            <div class="col-md-6 wow fadeInLeft">
-                <div class="btn-section"><a href="${schedule}"
-                                            style="margin-left: 120px;" class="btn-default">Teacher Schedule</a>
-                </div>
-                <div class="btn-section"><a href="${materials}"
-                                            style="margin-left: 120px; margin-top: 20px" class="btn-default">Teacher Public Files</a>
-                </div>
-            </div>
-            <!-- /.feature image -->
-            <div class="col-md-6 feature-2-pic wow fadeInRight">
-                <img src="../../static/images/collegestudents.jpg" alt="image" class="img-responsive">
             </div>
         </div>
     </div>
