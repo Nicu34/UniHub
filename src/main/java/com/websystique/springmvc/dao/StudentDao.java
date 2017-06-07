@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * Created by nicu on 5/24/2017.
  */
@@ -19,10 +17,20 @@ public class StudentDao extends AbstractDao<Integer, Student> {
 
     static final Logger logger = LoggerFactory.getLogger(StudentDao.class);
 
+    /**
+     * Finds a student by given id;
+     * @param id
+     * @return student with above critera
+     */
     public Student findById(Integer id) {
         return getByKey(id);
     }
 
+    /**
+     * Finds student by given user;
+     * @param user
+     * @return student with above criteria.
+     */
     public Student findByUser(User user) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("user", user));
@@ -36,19 +44,12 @@ public class StudentDao extends AbstractDao<Integer, Student> {
 
         return student;
     }
+
+    /**
+     * Saves a student into database
+     * @param student
+     */
     public void save(Student student) {
         persist(student);
-    }
-
-    public void deleteById(Integer id) {
-        Student student = findById(id);
-        delete(student);
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Student> findAllStudents() {
-        Criteria criteria = createEntityCriteria();
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return (List<Student>) criteria.list();
     }
 }

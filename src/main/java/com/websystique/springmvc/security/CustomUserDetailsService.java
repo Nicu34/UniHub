@@ -25,6 +25,12 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserService userService;
 
+    /**
+     * Loads user details for login by given ssoId
+     * @param ssoId unique ssoId (nickname)
+     * @return user details for login
+     * @throws UsernameNotFoundException
+     */
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String ssoId)
             throws UsernameNotFoundException {
@@ -39,6 +45,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 
+    /**
+     * Initialize user's access by his role (ADMIN, TEACHER, STUDENT)
+     * @param user Given User
+     * @return its authorities
+     */
     private List<GrantedAuthority> getGrantedAuthorities(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 

@@ -19,6 +19,11 @@ public class GroupDao extends AbstractDao<Integer, SchoolGroup> {
 
     static final Logger logger = LoggerFactory.getLogger(GroupDao.class);
 
+    /**
+     * Gets school group by given id
+     * @param id
+     * @return school group with above criteria
+     */
     public SchoolGroup findById(Integer id) {
         SchoolGroup schoolGroup = getByKey(id);
         if (schoolGroup != null) {
@@ -28,15 +33,20 @@ public class GroupDao extends AbstractDao<Integer, SchoolGroup> {
         return schoolGroup;
     }
 
+    /**
+     * Saves the schoolGroup into database.
+     * @param schoolGroup
+     */
     public void save(SchoolGroup schoolGroup) {
         persist(schoolGroup);
     }
 
-    public void deleteById(Integer id) {
-        SchoolGroup schoolGroup = findById(id);
-        delete(schoolGroup);
-    }
 
+    /**
+     * Find all school groups by given university.
+     * @param university
+     * @return list of groups with above criteria
+     */
     @SuppressWarnings("unchecked")
     public List<SchoolGroup> findAllGroups(University university) {
         Criteria criteria = createEntityCriteria();
@@ -50,6 +60,11 @@ public class GroupDao extends AbstractDao<Integer, SchoolGroup> {
 
     }
 
+    /**
+     * Gets school group by its group number
+     * @param groupNumber
+     * @return school group with above criteria.
+     */
     public SchoolGroup findByGroupNumber(Long groupNumber) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("groupNumber", groupNumber));

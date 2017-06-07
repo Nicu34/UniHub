@@ -19,22 +19,38 @@ public class StudyYearService {
     @Autowired
     private StudyYearDao studyYearDao;
 
+    /**
+     * Finds the study year by given id
+     * @param id
+     * @return study year with above criteria.
+     */
     public StudyYear findById(int id) {
         return studyYearDao.findById(id);
     }
 
+    /**
+     * Saves study year into database.
+     * @param studyYear
+     */
     public void save(StudyYear studyYear) {
         studyYearDao.save(studyYear);
     }
 
+    /**
+     * Gets list of study year by given university.
+     * @param university
+     * @return list of study year with above criteria.
+     */
     public List<StudyYear> findAll(University university) {
         return studyYearDao.findAllStudyYears(university);
     }
 
-    public void deleteById(Integer id) {
-        studyYearDao.deleteById(id);
-    }
-
+    /**
+     * Gets study year by given year and university.
+     * @param year
+     * @param university
+     * @return study year with above criteria
+     */
     public StudyYear findByYearAndUniversity(Integer year, University university) {
         return studyYearDao.findByYear(year, university);
     }

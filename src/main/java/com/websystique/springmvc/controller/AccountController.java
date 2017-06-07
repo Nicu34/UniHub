@@ -2,7 +2,6 @@ package com.websystique.springmvc.controller;
 
 import com.websystique.springmvc.converter.AdminDtoToUniversity;
 import com.websystique.springmvc.converter.AdminDtoToUser;
-import com.websystique.springmvc.converter.CourseDtoToCourse;
 import com.websystique.springmvc.converter.NewUserDtoToUser;
 import com.websystique.springmvc.dto.*;
 import com.websystique.springmvc.model.*;
@@ -19,20 +18,22 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 
 @Controller
 @RequestMapping("/")
-@SessionAttributes("roles")
-public class AppController {
+public class AccountController {
 
 	@Autowired
 	UserService userService;
@@ -40,9 +41,6 @@ public class AppController {
 	@Autowired
 	UniversityService universityService;
 
-	@Autowired
-	UserProfileService userProfileService;
-	
 	@Autowired
 	MessageSource messageSource;
 
@@ -70,11 +68,11 @@ public class AppController {
 	@Autowired
 	StudentService studentService;
 
-	@Autowired
-	CourseService courseService;
-
 	/**
-	 * This method will list all existing users.
+	 * This method will set the model values and will return the page depending on user profile type
+	 * @param model
+	 * @return the page depending on user profile type
+	 * @throws MessagingException in case that the email couldn't be sent
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String listUsers(ModelMap model) throws MessagingException {
@@ -117,33 +115,10 @@ public class AppController {
 		}
 	}
 
-	@RequestMapping(value = "/addGroup", method = RequestMethod.POST)
-	public String addGroup(@ModelAttribute SchoolGroupDto schoolGroupDto) {
-		SchoolGroup schoolGroup = new SchoolGroup();
-		University university = userService.findBySSO(getPrincipal()).getUniversity();
-		schoolGroup.setGroupNumber(schoolGroupDto.getGroupName());
-		schoolGroup.setStudyYear(studyYearService.findByYearAndUniversity(schoolGroupDto.getStudyYear(), university));
-		schoolGroup.setUniversity(university);
-		groupService.save(schoolGroup);
-
-		return "redirect:/";
-	}
-
-	@RequestMapping(value = "/addCourse", method = RequestMethod.POST)
-	public String addCourse(@ModelAttribute CourseDto courseDto) {
-		Course course = new CourseDtoToCourse().convert(courseDto);
-		User user = userService.findBySSO(getPrincipal());
-		University university = user.getUniversity();
-		StudyYear studyYear = studyYearService.findByYearAndUniversity(courseDto.getStudyYear(), university);
-		Teacher teacher = teacherService.findByUser(user);
-
-		course.setTeacher(teacher);
-		course.setStudyYear(studyYear);
-		courseService.save(course);
-
-		return "redirect:/";
-	}
-
+	/**
+	 * Creates a temporary account and send an email to invited users for admin role.
+	 * @throws MessagingException in case that the email couldn't be sent
+	 */
 	@RequestMapping(value = "/inviteAdmins", method = RequestMethod.POST)
 	public String inviteAdmins(@ModelAttribute EmailDto emailDto) throws MessagingException {
 		registerTemporaryAccountAndSendEmail(emailDto.getAdminEmails(), getPrincipal(), ProfileEnum.ADMIN, emailDto.getGroupNumber());
@@ -151,6 +126,11 @@ public class AppController {
 		return "redirect:/";
 	}
 
+	/**
+	 * Creates a temporary teacher account and sends and email to invited users for teacher role.
+	 * @param emailDto
+	 * @throws MessagingException in case that the email couldn't be send
+	 */
 	@RequestMapping(value = "/inviteTeachers", method = RequestMethod.POST)
 	public String inviteTeachers(@ModelAttribute EmailDto emailDto) throws MessagingException {
 		registerTemporaryAccountAndSendEmail(emailDto.getTeacherEmails(), getPrincipal(), ProfileEnum.TEACHER, emailDto.getGroupNumber());
@@ -158,6 +138,12 @@ public class AppController {
 		return "redirect:/";
 	}
 
+	/**
+	 * Creates a temporary student account and sends an email to invited users for student role.
+	 * @param emailDto
+	 * @return
+	 * @throws MessagingException in case that the email couldn't be sent
+	 */
 	@RequestMapping(value = "/inviteStudents", method = RequestMethod.POST)
 	public String inviteStudents(@ModelAttribute EmailDto emailDto) throws MessagingException {
 		registerTemporaryAccountAndSendEmail(emailDto.getStudentEmails(), getPrincipal(), ProfileEnum.STUDENT, emailDto.getGroupNumber());
@@ -178,8 +164,7 @@ public class AppController {
 	}
 
 	/**
-	 * This method will be called on form submission, handling POST request for
-	 * saving user in database. It also validates the user input
+	 * Creates a new username, after the user complette the registration invitation sent in a mail.
 	 */
 	@RequestMapping(value = { "/newuser" }, method = RequestMethod.POST)
 	public String saveUser(AdminDto admin, BindingResult result,
@@ -202,74 +187,9 @@ public class AppController {
 		return "registrationsuccess";
 	}
 
-	@Transactional
-	private void registerTemporaryAccountAndSendEmail(String invitedEmails, String loggedInUsername, ProfileEnum role, Long groupNumber) throws MessagingException {
-	    invitedUserService.saveMultipleAccounts(invitedEmails, role, userService.findBySSO(loggedInUsername).getUniversity(), groupService.findByGroupNumber(groupNumber));
-	    emailService.sendEmailInvitation(invitedEmails, loggedInUsername, role);
-	}
-
-	@Transactional
-	private void registerNewAdminWithNewUniversity(User user, University university, Integer studyYears) {
-		user.setProfileEnum(ProfileEnum.ADMIN);
-		user.setUniversity(university);
-
-		universityService.save(university, studyYears);
-		userService.saveUser(user);
-	}
-
-	@RequestMapping(value = "/view-group-{id}", method = RequestMethod.GET)
-	public String viewGroupDetails(@PathVariable Integer id, ModelMap model) {
-		SchoolGroup schoolGroup = groupService.findById(id);
-
-		model.addAttribute("group", schoolGroup);
-
-		return "groupDetails";
-	}
-
-	@RequestMapping(value = "/view-student-{id}", method = RequestMethod.GET)
-	public String viewStudentDetails(@PathVariable Integer id, ModelMap model) {
-		Student student = studentService.findById(id);
-
-		model.addAttribute("student", student);
-
-		return "studentDetails";
-	}
-
-	@RequestMapping(value = "/view-course-{id}", method = RequestMethod.GET)
-	public String viewCourseDetails(@PathVariable Integer id, ModelMap modelMap) {
-		modelMap.addAttribute("course", courseService.findById(id));
-
-		return "courseDetails";
-	}
-
-	@RequestMapping(value = "/view-university-{id}", method = RequestMethod.GET)
-	public String viewUniversityDetails(@PathVariable Integer id, ModelMap modelMap) {
-		University university = universityService.findById(id);
-		List<Teacher> teachers = userService.findAllUsers(university).stream().filter(user -> user.getProfileEnum() == ProfileEnum.TEACHER).map(user -> teacherService.findByUser(user)).filter(Objects::nonNull).collect(Collectors.toList());
-		List<Course> courses = new ArrayList<>();
-
-		for (Teacher teacher : teachers) {
-		    if (teacher != null) {
-				courses.addAll(teacher.getCourses());
-			}
-		}
-
-		modelMap.addAttribute("university", university);
-		modelMap.addAttribute("courses", new HashSet<>(courses));
-		modelMap.addAttribute("teachers", teachers);
-
-		return "universityDetails";
-	}
-
-	@RequestMapping(value = "/view-teacher-{id}", method = RequestMethod.GET)
-	public String viewTeacherDetails(@PathVariable Integer id, ModelMap modelMap) {
-		Teacher teacher = teacherService.findById(id);
-
-		modelMap.addAttribute("teacher", teacher);
-
-		return "teacherDetails";
-	}
-
+	/**
+	 * Gets details about an administrator by id.
+	 */
 	@RequestMapping(value = "/view-admin-{id}", method = RequestMethod.GET)
 	public String viewAdminDetails(@PathVariable Integer id, ModelMap modelMap) {
 		User user = userService.findById(id);
@@ -280,32 +200,8 @@ public class AppController {
 	}
 
 	/**
-	 * This method will provide the medium to update an existing user.
+	 * Provides data for a user which enters the invitation link;
 	 */
-	@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.GET)
-	public String editUser(@PathVariable String ssoId, ModelMap model) {
-		User user = userService.findBySSO(ssoId);
-		model.addAttribute("user", user);
-		model.addAttribute("edit", true);
-		model.addAttribute("loggedinuser", getPrincipal());
-		return "registration";
-	}
-	
-	/**
-	 * This method will be called on form submission, handling POST request for
-	 * updating user in database. It also validates the user input
-	 */
-	@RequestMapping(value = { "/edit-user-{ssoId}" }, method = RequestMethod.POST)
-	public String updateUser(@Valid User user, BindingResult result,
-			ModelMap model, @PathVariable String ssoId) {
-
-		userService.updateUser(user);
-
-		model.addAttribute("success", "User " + user.getFirstName() + " "+ user.getLastName() + " updated successfully");
-		model.addAttribute("loggedinuser", getPrincipal());
-		return "registrationsuccess";
-	}
-
 	@RequestMapping(value = "/create-account/{account}", method = RequestMethod.GET)
 	public String initializeCreateAdminPage(@PathVariable String account, ModelMap modelMap) {
 		InvitedUser invitedUser = invitedUserService.findBySsoId(account);
@@ -317,6 +213,9 @@ public class AppController {
 	}
 
 
+	/**
+	 * Deletes the temporary account and creates a new account.
+	 */
 	@RequestMapping(value = "/create-account", method = RequestMethod.POST)
 	public String createNewUserFromInvitation(@ModelAttribute NewUserDto newUserDto) {
 		User user = new NewUserDtoToUser().convert(newUserDto);
@@ -324,54 +223,6 @@ public class AppController {
 		registerInvitedUser(user, newUserDto.getGroupNumber(), newUserDto.getScheduleLink(), newUserDto.getFilesLink());
 
 		return "redirect:/";
-	}
-
-	@Transactional
-	private void registerInvitedUser(User user, Long groupNumber, String scheduleLink, String filesLink) {
-		invitedUserService.deleteByEmail(user.getEmail());
-		userService.saveUser(user);
-		if (user.getProfileEnum() == ProfileEnum.STUDENT) {
-			registerInvitedStudent(user, groupService.findByGroupNumber(groupNumber));
-		}
-		else if (user.getProfileEnum() == ProfileEnum.TEACHER) {
-			registerInvitedTeacher(user, scheduleLink, filesLink);
-		}
-	}
-
-	private void registerInvitedTeacher(User user, String scheduleLink, String filesLink) {
-		Teacher teacher = new Teacher();
-
-		teacher.setUser(user);
-		teacher.setFilesLink(filesLink);
-		teacher.setScheduleLink(scheduleLink);
-		teacherService.save(teacher);
-	}
-
-	private void registerInvitedStudent(User user, SchoolGroup group) {
-		Student student = new Student();
-
-		student.setUser(user);
-		student.setSchoolGroup(group);
-		studentService.save(student);
-	}
-
-	
-	/**
-	 * This method will delete an user by it's SSOID value.
-	 */
-	@RequestMapping(value = { "/delete-user-{ssoId}" }, method = RequestMethod.GET)
-	public String deleteUser(@PathVariable String ssoId) {
-		userService.deleteUserBySSO(ssoId);
-		return "redirect:/list";
-	}
-	
-
-	/**
-	 * This method will provide Profile list to views
-	 */
-	@ModelAttribute("roles")
-	public List<Profile> initializeProfiles() {
-		return userProfileService.findAll();
 	}
 
 	/**
@@ -385,7 +236,7 @@ public class AppController {
 
 	/**
 	 * This method handles login GET requests.
-	 * If users is already logged-in and tries to goto login page again, will be redirected to list page.
+	 * If users is already logged-in and tries to goto login page again, will be redirected to home page.
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String loginPage(ModelMap model) {
@@ -393,13 +244,12 @@ public class AppController {
 		if (isCurrentAuthenticationAnonymous()) {
 			return "login";
 	    } else {
-	    	return "redirect:/list";  
+	    	return "redirect:/";
 	    }
 	}
 
 	/**
 	 * This method handles logout requests.
-	 * Toggle the handlers if you are RememberMe functionality is useless in your app.
 	 */
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response){
@@ -426,7 +276,7 @@ public class AppController {
 		}
 		return userName;
 	}
-	
+
 	/**
 	 * This method returns true if users is already authenticated [logged-in], else false.
 	 */
@@ -436,4 +286,62 @@ public class AppController {
 	}
 
 
+	/**
+	 * Registers a new user into application.
+	 */
+	@Transactional
+	private void registerInvitedUser(User user, Long groupNumber, String scheduleLink, String filesLink) {
+		invitedUserService.deleteByEmail(user.getEmail());
+		userService.saveUser(user);
+		if (user.getProfileEnum() == ProfileEnum.STUDENT) {
+			registerInvitedStudent(user, groupService.findByGroupNumber(groupNumber));
+		}
+		else if (user.getProfileEnum() == ProfileEnum.TEACHER) {
+			registerInvitedTeacher(user, scheduleLink, filesLink);
+		}
+	}
+
+	/**
+	 * Registers a teacher.
+	 */
+	private void registerInvitedTeacher(User user, String scheduleLink, String filesLink) {
+		Teacher teacher = new Teacher();
+
+		teacher.setUser(user);
+		teacher.setFilesLink(filesLink);
+		teacher.setScheduleLink(scheduleLink);
+		teacherService.save(teacher);
+	}
+
+	/**
+	 * Registers a student among with his group.
+	 */
+	private void registerInvitedStudent(User user, SchoolGroup group) {
+		Student student = new Student();
+
+		student.setUser(user);
+		student.setSchoolGroup(group);
+		studentService.save(student);
+	}
+
+	/**
+	 * Registers a temporary account and sends the email.
+	 */
+	@Transactional
+	private void registerTemporaryAccountAndSendEmail(String invitedEmails, String loggedInUsername, ProfileEnum role, Long groupNumber) throws MessagingException {
+		invitedUserService.saveMultipleAccounts(invitedEmails, role, userService.findBySSO(loggedInUsername).getUniversity(), groupService.findByGroupNumber(groupNumber));
+		emailService.sendEmailInvitation(invitedEmails, loggedInUsername, role);
+	}
+
+	/**
+	 * Registers a temporary admin account and sends the email.
+	 */
+	@Transactional
+	private void registerNewAdminWithNewUniversity(User user, University university, Integer studyYears) {
+		user.setProfileEnum(ProfileEnum.ADMIN);
+		user.setUniversity(university);
+
+		universityService.save(university, studyYears);
+		userService.saveUser(user);
+	}
 }

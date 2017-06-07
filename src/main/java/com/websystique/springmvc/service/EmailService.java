@@ -31,8 +31,15 @@ public class EmailService {
 
     private static final String emailSubject = "Create UniHub account";
 
-    private static final String incomingLink = "http://unihub.com/%s";
+    private static final String incomingLink = "http://unihub.com:8081/create-account/%s";
 
+    /**
+     * Sends the automatically email
+     * @param receivers recipients emails
+     * @param userName username which invited the recipients
+     * @param profileEnum the selected profile for invited people
+     * @throws MessagingException
+     */
     public void sendEmailInvitation(String receivers, String userName, ProfileEnum profileEnum) throws MessagingException {
         Message message = new MimeMessage(emailSession);
 
@@ -43,6 +50,14 @@ public class EmailService {
         }
     }
 
+    /**
+     * Constructs the email message and sends the automatically email.
+     * @param message given message containing sender email and the email subject
+     * @param address given email address for receiver
+     * @param userName which sends the automatically email
+     * @param profileEnum selected profile for invited people
+     * @throws MessagingException
+     */
     private void buildMessageAndSendEmail(Message message, String address, String userName, ProfileEnum profileEnum) throws MessagingException {
         User user = userService.findBySSO(userName);
         University university = user.getUniversity();

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 /**
  * Created by nicu on 5/24/2017.
@@ -19,23 +18,29 @@ public class TeacherService {
     @Autowired
     private TeacherDao teacherDao;
 
+    /**
+     * Gets teacher by given id
+     * @param id
+     * @return teacher with above criteria.
+     */
     public Teacher findById(int id) {
         return teacherDao.findById(id);
     }
 
+    /**
+     * Gets teacher by given user
+     * @param user
+     * @return teacher with above criteria.
+     */
     public Teacher findByUser(User user) {
         return teacherDao.findByUser(user);
     }
 
+    /**
+     * Saves a teacher into database.
+     * @param teacher
+     */
     public void save(Teacher teacher) {
         teacherDao.save(teacher);
-    }
-
-    public List<Teacher> findAll() {
-        return teacherDao.findAllTeachers();
-    }
-
-    public void deleteById(Integer id) {
-        teacherDao.deleteById(id);
     }
 }

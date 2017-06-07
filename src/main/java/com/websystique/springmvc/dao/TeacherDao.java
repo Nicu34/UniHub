@@ -9,8 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * Created by nicu on 5/24/2017.
  */
@@ -19,6 +17,11 @@ public class TeacherDao extends AbstractDao<Integer, Teacher> {
 
     static final Logger logger = LoggerFactory.getLogger(TeacherDao.class);
 
+    /**
+     * Gets teacher by given id
+     * @param id
+     * @return teacher with above criteria.
+     */
     public Teacher findById(Integer id) {
         Teacher teacher = getByKey(id);
         if (teacher != null) {
@@ -28,6 +31,11 @@ public class TeacherDao extends AbstractDao<Integer, Teacher> {
         return teacher;
     }
 
+    /**
+     * Gets teacher by given user
+     * @param user
+     * @return teacher with above criteria.
+     */
     public Teacher findByUser(User user) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("user", user));
@@ -40,19 +48,11 @@ public class TeacherDao extends AbstractDao<Integer, Teacher> {
         return teacher;
     }
 
+    /**
+     * Saves a teacher into database.
+     * @param teacher
+     */
     public void save(Teacher teacher) {
         persist(teacher);
-    }
-
-    public void deleteById(Integer id) {
-        Teacher teacher = findById(id);
-        delete(teacher);
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Teacher> findAllTeachers() {
-        Criteria criteria = createEntityCriteria();
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        return (List<Teacher>) criteria.list();
     }
 }

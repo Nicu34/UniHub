@@ -19,22 +19,38 @@ public class GroupService {
     @Autowired
     private GroupDao groupDao;
 
+    /**
+     * Gets school group by given id
+     * @param id
+     * @return school group with above criteria
+     */
     public SchoolGroup findById(int id) {
         return groupDao.findById(id);
     }
 
+    /**
+     * Gets school group by its group number
+     * @param groupNumber
+     * @return school group with above criteria.
+     */
     public SchoolGroup findByGroupNumber(Long groupNumber) {
         return groupDao.findByGroupNumber(groupNumber);
     }
-    public void save(SchoolGroup course) {
-        groupDao.save(course);
+
+    /**
+     * Saves the schoolGroup into database.
+     * @param schoolGroup
+     */
+    public void save(SchoolGroup schoolGroup) {
+        groupDao.save(schoolGroup);
     }
 
+    /**
+     * Find all school groups by given university.
+     * @param university
+     * @return list of groups with above criteria
+     */
     public List<SchoolGroup> findAll(University university) {
         return groupDao.findAllGroups(university);
-    }
-
-    public void deleteById(Integer id) {
-        groupDao.deleteById(id);
     }
 }

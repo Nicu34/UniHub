@@ -26,10 +26,6 @@ public class InvitedUserService {
         return invitedUserDao.findById(id);
     }
 
-    public InvitedUser findByEmail(String email) {
-        return invitedUserDao.findByEmail(email);
-    }
-
     public InvitedUser findBySsoId(String ssoId) {
         return invitedUserDao.findBySsoId(ssoId);
     }
@@ -38,14 +34,20 @@ public class InvitedUserService {
         invitedUserDao.save(student);
     }
 
-    public List<InvitedUser> findAll() {
-        return invitedUserDao.findAllInvitedUsers();
-    }
-
     public void deleteByEmail(String email) {
         invitedUserDao.deleteByEmail(email);
     }
 
+    public List<InvitedUser> findAll() {
+        return invitedUserDao.findAllInvitedUsers();
+    }
+    /**
+     * Saves multiple temporary accounts.
+     * @param invitedEmails the invited emails accounts
+     * @param profileEnum the profile type which the emails was invited for
+     * @param university the university which the accounts are belonging
+     * @param schoolGroup the group which possible students accounts
+     */
     public void saveMultipleAccounts(String invitedEmails, ProfileEnum profileEnum, University university, SchoolGroup schoolGroup) {
         Arrays.stream(invitedEmails.trim()
                 .replaceAll("\\s+", " ")
@@ -54,6 +56,14 @@ public class InvitedUserService {
                 .forEach(this::save);
     }
 
+    /**
+     * Builds the invited user details
+     * @param email given email for invited user
+     * @param university given university for invited user
+     * @param profileEnum given profile type for invited user
+     * @param schoolGroup given school group for possible invited student
+     * @return
+     */
     private InvitedUser buildInvitedUser(String email, University university, ProfileEnum profileEnum, SchoolGroup schoolGroup) {
         String userName = email.substring(0, email.indexOf("@"));
         InvitedUser invitedUser = new InvitedUser();

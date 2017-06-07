@@ -9,6 +9,11 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class AdminDtoToUser implements Converter<AdminDto, User> {
 
+    /**
+     * Converts AdminDto object to User type
+     * @param source
+     * @return User object
+     */
     @Override
     public User convert(AdminDto source) {
         User user = new User();

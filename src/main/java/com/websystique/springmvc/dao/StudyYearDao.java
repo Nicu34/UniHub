@@ -18,19 +18,28 @@ public class StudyYearDao extends AbstractDao<Integer, StudyYear> {
 
     static final Logger logger = LoggerFactory.getLogger(StudyYearDao.class);
 
+    /**
+     * Finds the study year by given id
+     * @param id
+     * @return study year with above criteria.
+     */
     public StudyYear findById(Integer id) {
         return getByKey(id);
     }
 
+    /**
+     * Saves study year into database.
+     * @param studyYear
+     */
     public void save(StudyYear studyYear) {
         persist(studyYear);
     }
 
-    public void deleteById(Integer id) {
-        StudyYear studyYear = findById(id);
-        delete(studyYear);
-    }
-
+    /**
+     * Gets list of study year by given university.
+     * @param university
+     * @return list of study year with above criteria.
+     */
     @SuppressWarnings("unchecked")
     public List<StudyYear> findAllStudyYears(University university) {
         Criteria criteria = createEntityCriteria();
@@ -39,6 +48,12 @@ public class StudyYearDao extends AbstractDao<Integer, StudyYear> {
         return (List<StudyYear>) criteria.list();
     }
 
+    /**
+     * Gets study year by given year and university.
+     * @param year
+     * @param university
+     * @return study year with above criteria
+     */
     public StudyYear findByYear(Integer year, University university) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("year", year));

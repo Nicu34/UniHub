@@ -134,7 +134,6 @@
                     </div>
                 </div>
                 <!-- /.feature 1 -->
-                <
                 <div class="col-md-6 ">
                     <!-- /.feature 1 -->
                     <div class="fadeInRight" style="width:100%;">

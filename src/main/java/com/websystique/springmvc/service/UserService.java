@@ -19,47 +19,49 @@ public class UserService {
 
 	@Autowired
     private PasswordEncoder passwordEncoder;
-	
+
+	/**
+	 * Gets user by given id;
+	 * @param id
+	 * @return user with above criteria
+	 */
 	public User findById(int id) {
 		return userDao.findById(id);
 	}
 
+	/**
+	 * Gets user by given ssoid
+	 * @param sso
+	 * @return user with above criteria.
+	 */
 	public User findBySSO(String sso) {
 		return userDao.findBySSO(sso);
 	}
 
+	/**
+	 * Saves user into database.
+	 * @param user
+	 */
 	public void saveUser(User user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		userDao.save(user);
 	}
 
-	/*
-	 * Since the method is running with Transaction, No need to call hibernate update explicitly.
-	 * Just fetch the entity from db and update it with proper values within transaction.
-	 * It will be updated in db once transaction ends. 
+	/**
+	 * Gets all users by given university
+	 * @param university
+	 * @return list of users with above criteria
 	 */
-	public void updateUser(User user) {
-		User entity = userDao.findById(user.getId());
-		if(entity!=null){
-			entity.setSsoId(user.getSsoId());
-			if(!user.getPassword().equals(entity.getPassword())){
-				entity.setPassword(passwordEncoder.encode(user.getPassword()));
-			}
-			entity.setFirstName(user.getFirstName());
-			entity.setLastName(user.getLastName());
-			entity.setEmail(user.getEmail());
-			entity.setProfileEnum(user.getProfileEnum());
-		}
-	}
-
-	public void deleteUserBySSO(String sso) {
-		userDao.deleteBySSO(sso);
-	}
-
 	public List<User> findAllUsers(University university) {
 		return userDao.findAllUsers(university);
 	}
 
+	/**
+	 * Returns true or false depending if the user given ssoid is unique
+	 * @param id
+	 * @param sso
+	 * @return true / false
+	 */
 	public boolean isUserSSOUnique(Integer id, String sso) {
 		User user = userDao.findOnlyBySSO(sso);
 		return ( user == null || ((id != null) && (user.getId() == id)));

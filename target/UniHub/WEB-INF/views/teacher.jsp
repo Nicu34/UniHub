@@ -171,14 +171,8 @@
                                     <td><a href="${course.courseMaterialsLink}">Materials Link</a></td>
                                     <td>${course.studyYear.year}</td>
                                     <td>
-                                        <sec:authorize access="hasRole('TEACHER')">
-                                            <a href="<c:url value='/delete-course-${course.id}' />"
-                                               class="clsActionButton">Delete</a>
-                                        </sec:authorize>
-                                        <sec:authorize access="hasRole('TEACHER')">
                                             <a href="<c:url value='/view-course-${course.id}' />"
                                                class="clsActionButton">View</a>
-                                        </sec:authorize>
                                     </td>
                                 </tr>
                             </c:forEach>

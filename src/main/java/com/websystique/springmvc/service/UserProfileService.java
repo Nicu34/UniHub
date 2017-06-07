@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 
 @Service
 @Transactional
@@ -15,16 +13,13 @@ public class UserProfileService {
 	
 	@Autowired
 	private ProfileDao dao;
-	
+
+	/**
+	 * Returns the profile by its id;
+	 * @param id
+	 * @return the profile with above criteria
+	 */
 	public Profile findById(int id) {
 		return dao.findById(id);
-	}
-
-	public Profile findByType(String type){
-		return dao.findByType(type);
-	}
-
-	public List<Profile> findAll() {
-		return dao.findAll();
 	}
 }

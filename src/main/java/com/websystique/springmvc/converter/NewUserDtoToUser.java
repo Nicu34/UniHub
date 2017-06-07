@@ -8,6 +8,12 @@ import org.springframework.core.convert.converter.Converter;
  * Created by nicu on 6/5/2017.
  */
 public class NewUserDtoToUser implements Converter<NewUserDto, User> {
+
+    /**
+     * Returns NewUserDto object into User
+     * @param source
+     * @return User object
+     */
     @Override
     public User convert(NewUserDto source) {
         User user = new User();

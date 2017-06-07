@@ -9,6 +9,11 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class AdminDtoToUniversity implements Converter<AdminDto, University> {
 
+    /**
+     * Convers a AdminDto object into University one
+     * @param source
+     * @return the university object
+     */
     @Override
     public University convert(AdminDto source) {
         University university = new University();
