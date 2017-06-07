@@ -57,14 +57,22 @@
                         Details
                     </h1>
                     <div class="landing-text wow fadeInLeft">
-                        <p>Account :<label id="accountAdmin">${userDetails.ssoId}</label></p>
-                        <p>First Name : <label id="firstNameAdmin">${userDetails.firstName}</label></p>
-                        <p>Last Name : <label id="lastNameAdmin">${userDetails.lastName}</label></p>
+                        <p>Account:<label id="accountAdmin">${userDetails.ssoId}</label></p>
+                        <p>First Name: <label id="firstNameAdmin">${userDetails.firstName}</label></p>
+                        <p>Last Name: <label id="lastNameAdmin">${userDetails.lastName}</label></p>
                         <p>University :<label id="universityAdmin">${userDetails.university.longName}</label></p>
-                        <p>Email :<label id="emailAdmin">${userDetails.email}</label></p>
-                        <p>Phone :<label id="phoneAdmin">${userDetails.phone}</label></p>
-
+                        <p>Email:<label id="emailAdmin">${userDetails.email}</label></p>
+                        <p>Phone:<label id="phoneAdmin">${userDetails.phone}</label></p>
                     </div>
+                    <a href="<c:url value="/logout"/>" class="logg">
+                        <img class="photo" src="../../static/images/logout-512 (1).png"
+                             style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
+                    </a>
+                    <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
+                    <a href="/" class="logg">
+                        <img class="photo" src="../../static/images/home-5-xxl.png"
+                             style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
+                    </a>
                 </div>
 
                 <!--/.phone image-->
@@ -98,7 +106,7 @@
                     <li><a href="#feature0">Admin Accounts</a></li>
                     <li><a href="#feature1">Teacher Accounts</a></li>
                     <li><a href="#feature2">Student Accounts</a></li>
-                    <li><a href="#feature3">Manage Courses</a></li>
+                    <li><a href="#feature3">Manage Groups</a></li>
                 </ul>
             </div>
         </div>
@@ -106,14 +114,15 @@
 </div>
 
 <!--/.feature0 section-->
-<div id="feature0" style="padding-top:60px;padding-bottom: 60px;">
+<div id="feature0" style="padding-top:60px;padding-bottom: 60px; width: 40%;">
     <div class="container">
         <div class="row row-feat" style="padding-top:0px">
-            <div class="col-md-6 text-center">
+            <div class="col-md-6 text-center" style="margin-left: 0;">
 
                 <!-- /.feature image -->
-                <div class="signup-header wow fadeInUp">
-                    <h3 class="form-title text-center">Invite people to create admin account</h3>
+                <div class="signup-header wow fadeInUp" style="width: 100%;">
+                    <h3 class="form-title text-center" style="margin-bottom: 7%;">Invite someone to create admin
+                        account</h3>
                     <form:form method="POST" class="form-header" action="inviteAdmins" role="form"
                                modelAttribute="emailDto">
                         <div class="form-group">
@@ -130,7 +139,7 @@
 
             <div class="col-md-6 ">
                 <!-- /.feature 1 -->
-                <div class="fadeInRight" style="width:100%;">
+                <div class="fadeInRight" style="width:30%; margin-right: 5%;">
                     <h3 class="form-title text-center">Current Admin Accounts</h3>
                     <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
                     <div class="inner" style="width:100%;">
@@ -154,14 +163,8 @@
                                     <td>${adminUser.email}</td>
                                     <td>${adminUser.phone}</td>
                                     <td>
-                                        <sec:authorize access="hasRole('ADMIN')">
-                                            <a href="<c:url value='/delete-user-${adminUser.ssoId}' />"
-                                               class="clsActionButton">Delete</a>
-                                        </sec:authorize>
-                                        <sec:authorize access="hasRole('ADMIN')">
-                                            <a href="<c:url value='/view-user-${adminUser.ssoId}' />"
-                                               class="clsActionButton">View</a>
-                                        </sec:authorize>
+                                        <a href="<c:url value='/view-admin-${adminUser.id}' />"
+                                           class="clsActionButton">View</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -175,14 +178,15 @@
 </div>
 
 <!--/.feature0 section-->
-<div id="feature1" style="padding-top:60px;padding-bottom: 60px;">
+<div id="feature1" style="padding-top:60px;padding-bottom: 60px;width: 40%;">
     <div class="container">
         <div class="row row-feat" style="padding-top:0px">
-            <div class="col-md-6 text-center">
+            <div class="col-md-6 text-center" style="margin-left: 0;">
 
                 <!-- /.feature image -->
                 <div class="signup-header wow fadeInUp">
-                    <h3 class="form-title text-center">Invite people to create admin account</h3>
+                    <h3 class="form-title text-center" style="margin-bottom: 7%;">Invite someone to create teacher
+                        account</h3>
                     <form:form method="POST" class="form-header" action="inviteTeachers" role="form"
                                modelAttribute="emailDto">
                         <div class="form-group">
@@ -199,7 +203,7 @@
 
             <div class="col-md-6 ">
                 <!-- /.feature 1 -->
-                <div class="fadeInRight" style="width:100%;">
+                <div class="fadeInRight" style="width:30%; margin-right: 5%;">
                     <h3 class="form-title text-center">Current Teacher Accounts</h3>
                     <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
                     <div class="inner" style="width:100%;">
@@ -211,7 +215,7 @@
                                 <th>Last Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Manage Accounts</th>
+                                <th>View details</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -223,14 +227,8 @@
                                     <td>${teacherUser.email}</td>
                                     <td>${teacherUser.phone}</td>
                                     <td>
-                                        <sec:authorize access="hasRole('ADMIN')">
-                                            <a href="<c:url value='/delete-user-${teacherUser.ssoId}' />"
-                                               class="clsActionButton">Delete</a>
-                                        </sec:authorize>
-                                        <sec:authorize access="hasRole('ADMIN')">
-                                            <a href="<c:url value='/view-user-${teacherUser.ssoId}' />"
-                                               class="clsActionButton">View</a>
-                                        </sec:authorize>
+                                        <a href="<c:url value='/view-teacher-${teacherUser.id}' />"
+                                           class="clsActionButton">View</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -244,14 +242,15 @@
 </div>
 
 <!--/.feature0 section-->
-<div id="feature2" style="padding-top:60px;padding-bottom: 60px;">
+<div id="feature2" style="padding-top:60px;padding-bottom: 60px; width: 40%;">
     <div class="container">
         <div class="row row-feat" style="padding-top:0px">
-            <div class="col-md-6 text-center">
+            <div class="col-md-6 text-center" style="margin-left: 0;">
 
                 <!-- /.feature image -->
                 <div class="signup-header wow fadeInUp">
-                    <h3 class="form-title text-center">Invite people to create student account</h3>
+                    <h3 class="form-title text-center" style="margin-bottom: 7%;">Invite people to create student
+                        account</h3>
                     <form:form method="POST" class="form-header" action="inviteStudents" role="form"
                                modelAttribute="emailDto">
                         <div class="form-group">
@@ -268,7 +267,7 @@
                             </form:select>
                         </div>
                         <div class="form-group last">
-                            <input type="submit" class="btn-primary" id="buttonInviteAdmins"
+                            <input type="submit" class="btn-primary" id="buttonInviteStudent"
                                    value="Invite students">
                         </div>
                     </form:form>
@@ -277,7 +276,7 @@
 
             <div class="col-md-6 ">
                 <!-- /.feature 1 -->
-                <div class="fadeInRight" style="width:100%;">
+                <div class="fadeInRight" style="width:30%; margin-right: 5%;">
                     <h3 class="form-title text-center">Current Student Accounts</h3>
                     <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
                     <div class="inner" style="width:100%;">
@@ -289,7 +288,7 @@
                                 <th>Last Name</th>
                                 <th>Email</th>
                                 <th>Phone</th>
-                                <th>Manage Accounts</th>
+                                <th>View details</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -301,14 +300,8 @@
                                     <td>${studentUser.email}</td>
                                     <td>${studentUser.phone}</td>
                                     <td>
-                                        <sec:authorize access="hasRole('ADMIN')">
-                                            <a href="<c:url value='/delete-user-${studentUser.ssoId}' />"
-                                               class="clsActionButton">Delete</a>
-                                        </sec:authorize>
-                                        <sec:authorize access="hasRole('ADMIN')">
-                                            <a href="<c:url value='/view-user-${studentUser.ssoId}' />"
-                                               class="clsActionButton">View</a>
-                                        </sec:authorize>
+                                        <a href="<c:url value='/view-student-${studentUser.id}' />"
+                                           class="clsActionButton">View</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -327,12 +320,12 @@
     <div class="subscribe fullscreen parallax" style="background-image:url('../../static/images/bg.jpg');"
          data-img-width="1920" data-img-height="1281" data-diff="100">
         <div class="overlay">
-            <div class="container" style="padding-bottom: 60px;">
+            <div class="container" style="padding-bottom: 60px;width: 100%;">
                 <div class="row row-feat">
-                    <div class="col-md-6 text-center">
+                    <div class="col-md-6 text-center" style="margin-left: 0;">
                         <!-- /.feature image -->
                         <div class="signup-header wow fadeInUp">
-                            <h3 class="form-title text-center">Add new group class</h3>
+                            <h3 class="form-title text-center" style="margin-bottom: 7%;">Add new group class</h3>
                             <form:form class="form-header" action="addGroup" modelAttribute="schoolGroupDto"
                                        method="POST">
                                 <div class="form-group">
@@ -358,16 +351,17 @@
 
                     <div class="col-md-6 ">
                         <!-- /.feature 1 -->
-                        <div class="fadeInRight" style="width:100%;">
-                            <h3 class="form-title text-center">Current Groups</h3>
+                        <div class="fadeInRight" style="width:30%;">
+                            <h3 class="form-title text-center" style="margin-bottom: 5%;">Current Groups</h3>
                             <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
-                            <div class="inner" style="width:100%;">
-                                <table style="margin-top:0px;border-radius: 10px;">
+                            <div class="inner" style="width:90%; margin-top: 5%;">
+                                <br>
+                                <table style="margin-top:5%;border-radius: 10px;">
                                     <thead>
                                     <tr>
                                         <th>Group Number</th>
                                         <th>Study Year</th>
-                                        <th>View group details</th>
+                                        <th>View details</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -376,10 +370,8 @@
                                             <td><strong>${group.groupNumber}</strong></td>
                                             <td><strong>${group.studyYear.year}</strong></td>
                                             <td>
-                                                <sec:authorize access="hasRole('ADMIN')">
-                                                    <a href="<c:url value='/view-group-${group.id}' />"
-                                                       class="clsActionButton">View</a>
-                                                </sec:authorize>
+                                                <a href="<c:url value='/view-group-${group.id}' />"
+                                                   class="clsActionButton">View</a>
                                             </td>
                                         </tr>
                                     </c:forEach>

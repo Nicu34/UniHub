@@ -9,7 +9,7 @@
 <head>
 
     <!-- /.website title -->
-    <title>Backyard App Landing Page</title>
+    <title>UniHub</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <!-- CSS Files -->
@@ -25,7 +25,6 @@
     <!-- Google Fonts -->
     <link rel="stylesheet"
           href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
-
     <script type="text/javascript">
         $(document).ready(
             function () {
@@ -45,21 +44,26 @@
 <!-- /.parallax full screen background image -->
 <div class="fullscreen landing parallax" style="background-image:url('../../static/images/bg.jpg');"
      data-img-width="2000" data-img-height="1325" data-diff="100">
-
     <div class="overlay">
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
+
                     <!-- /.logo -->
-                    <div class="logo wow fadeInDown" style="margin-top: 0%;"><a href=""><img
-                            src="../../static/images/white-logo.png" alt="logo" style="height: 80%;width: 40%;"></a>
+                    <div class="logo wow fadeInDown" style="margin-top: 20px;"><a href=""><img
+                            src="../../static/images/white-logo.png" alt="logo" style="height: 120px;width: 250px;"></a>
                     </div>
-                    <h1 class="wow fadeInLeft" style="margin-top: 0%">
-                        Group: ${group.groupNumber}
+                    <h1 class="wow fadeInLeft" style="margin-top: 60px;">
+                        Admin Details
                     </h1>
-                    <h2 class="wow fadeInLeft" style="color: white">
-                        Year: ${group.studyYear.year}
-                    </h2>
+                    <div class="landing-text wow fadeInLeft">
+                        <p>Account:<label id="accountAdmin">${userDetails.ssoId}</label></p>
+                        <p>First Name: <label id="firstNameAdmin">${userDetails.firstName}</label></p>
+                        <p>Last Name: <label id="lastNameAdmin">${userDetails.lastName}</label></p>
+                        <p>University:<label id="universityAdmin">${userDetails.university.longName}</label></p>
+                        <p>Email:<label id="emailAdmin">${userDetails.email}</label></p>
+                        <p>Phone:<label id="phoneAdmin">${userDetails.phone}</label></p>
+                    </div>
                     <a href="<c:url value="/logout"/>" class="logg">
                         <img class="photo" src="../../static/images/logout-512 (1).png"
                              style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
@@ -73,73 +77,9 @@
 
                 <!--/.phone image-->
                 <div class="col-md-5">
-                    <img src="http://cfile4.uf.tistory.com/image/262C6F34580573DF079220" style="margin-top: 20%; width: 50%; height: 80%;"
+                    <img src="${userDetails.photoLink}" alt="phone" style="margin-top: 150px;"
                          class="header-phone img-responsive wow fadeInRight">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- NAVIGATION -->
-<div id="menu">
-    <nav class="navbar-wrapper navbar-default" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-backyard">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand site-name" href="#top"><img src="../../static/images/logo5.png" alt="logo"></a>
-            </div>
-
-            <div id="navbar-scroll" class="collapse navbar-collapse navbar-backyard navbar-right">
-                <ul class="nav navbar-nav" style="text-align: center;">
-                    <li><a href="#feature">Group students</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
-
-<!--/.feature0 section-->
-<div id="feature1" style="padding-top:60px;padding-bottom: 60px;">
-    <div class="container">
-        <div class="row row-feat" style="padding-top:0px">
-            <div class="col-md-6 ">
-                <!-- /.feature 1 -->
-                <div class="fadeInRight" style="width:100%;">
-                    <h3 class="form-title text-center">Students of group ${group.groupNumber}</h3>
-                    <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
-                    <div class="inner" style="width:100%;">
-                        <table style="margin-top:0px">
-                            <thead>
-                            <tr>
-                                <th>First name</th>
-                                <th>Last name</th>
-                                <th>Email</th>
-                                <th>Phone</th>
-                                <th>View details</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <c:forEach items="${group.students}" var="student">
-                                <tr>
-                                    <td><strong>${student.user.firstName}</strong></td>
-                                    <td><strong>${student.user.lastName}</strong></td>
-                                    <td>${student.user.email}</td>
-                                    <td>${student.user.phone}</td>
-                                    <td>
-                                            <a href="<c:url value='/view-student-${student.id}' />"
-                                               class="clsActionButton">View</a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
                 </div>
             </div>
         </div>
@@ -176,6 +116,7 @@
         </div>
     </div>
 </footer>
+<a href="#" class="scrollToTop"><i class="pe-7s-up-arrow pe-va"></i></a>
 
 <!-- /.javascript files -->
 <script src="../../static/js/jquery.js"></script>

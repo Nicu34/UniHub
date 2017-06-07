@@ -270,6 +270,15 @@ public class AppController {
 		return "teacherDetails";
 	}
 
+	@RequestMapping(value = "/view-admin-{id}", method = RequestMethod.GET)
+	public String viewAdminDetails(@PathVariable Integer id, ModelMap modelMap) {
+		User user = userService.findById(id);
+
+		modelMap.addAttribute("userDetails", user);
+
+		return "adminDetails";
+	}
+
 	/**
 	 * This method will provide the medium to update an existing user.
 	 */

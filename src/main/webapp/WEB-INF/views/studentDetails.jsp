@@ -62,6 +62,15 @@
                                 <p>Year of study: ${student.schoolGroup.studyYear.year}</p>
                                 <p>Group: ${student.schoolGroup.groupNumber}</p>
                             </div>
+                            <a href="<c:url value="/logout"/>" class="logg">
+                                <img class="photo" src="../../static/images/logout-512 (1).png"
+                                     style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
+                            </a>
+                            <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
+                            <a href="/" class="logg">
+                                <img class="photo" src="../../static/images/home-5-xxl.png"
+                                     style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
+                            </a>
                         </div>
 
                          <!--/.phone image-->

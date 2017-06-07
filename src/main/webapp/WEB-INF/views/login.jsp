@@ -28,10 +28,39 @@
     <!-- Google Fonts -->
     <link rel="stylesheet"
           href="http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic"/>
+    <script type="text/javascript">
+        function slideShow(mode) {
+            if (mode) {
+                $('#pt-main .pt-page:visible').eq(0).slideUp(0, function () {
+                    $(this).next('.pt-page').slideDown(0);
+                    $(this).appendTo('#pt-main');
+                });
+            }
+//            }else{
+//                $('#pt-main .pt-page:visible').eq(0).slideUp(700,function(){
+//                    $('#pt-main .pt-page:last').slideDown(1000).prependTo('#pt-main');
+//                });
+//            }
+        }
 
-    <!-- Chat ref -->
-    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">
-    <script src="https://cdn.conversejs.org/dist/converse.min.js"></script>
+        $('#pt-main .pt-page').hide().eq(0).show();
+    </script>
+    <script type="text/javascript">
+        $(document).ready(
+            function () {
+                $('#show').click(function () {
+                    $('#table-enroll').toggle();
+                });
+            });
+        function hide(elementId) {
+            document.getElementById(elementId).style.display = "none";
+        }
+        function show(elementId) {
+            hide(elementId);
+            document.getElementById(elementId).style.display = "block";
+        }
+
+    </script>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -94,7 +123,8 @@
                             <%--</div>--%>
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             <div class="form-group last">
-                                <input type="submit" class="btn btn-warning btn-block btn-lg" value="Login" name="LOGIN">
+                                <input type="submit" class="btn btn-warning btn-block btn-lg" value="Login"
+                                       name="LOGIN">
                             </div>
                             <p class="privacy text-center">You can only log in with your <a>faculty assigned account</a>
                             </p>
@@ -239,6 +269,8 @@
                     pdf materials , assignements and
                     files needed by any teacher or student will be centralised and easily accessed from uniHub .
                 </p>
+
+
             </div>
 
             <!-- /.feature image -->
@@ -267,91 +299,86 @@
                         accounts for the teachers and students. </p>
 
                     <!-- /.download button -->
-                    <div class="download-cta wow fadeInLeft">
-                        <a href="#contact" class="btn-secondary">Register</a>
-                    </div>
+                    <%--<div class="download-cta wow fadeInLeft">--%>
+                    <%--<a href="#contact" class="btn-secondary">Register</a>--%>
+                    <%--</div>--%>
                 </div>
+                <div id="pt-main" class="pt-perspective container">
+                    <div>
+                        <form:form method="POST" action="newuser" modelAttribute="admin" id="contact-form"
+                                   class="form-horizontal">
+                        <div class=" cls1 container contact-row" id='page1' style="width: 80%; margin-left: 10%;">
+                            <div class="form-group">
+                                <form:input type="text" class="cls1 form-control wow fadeInUp"
+                                            placeholder="Username" path="username"/>
+                            </div>
+                            <div class="form-group">
+                                <form:input type="text" class="cls1 form-control wow fadeInUp"
+                                            placeholder="First Name" path="userFirstName"/>
+                            </div>
+                            <div class="form-group">
+                                <form:input type="text" class="cls1 form-control wow fadeInUp"
+                                            placeholder="Last Name" path="userLastName"/>
+                            </div>
+                            <div class="form-group">
+                                <form:input type="text" class="cls1 form-control wow fadeInUp"
+                                            placeholder="Password" path="userPassword"/>
+                            </div>
+                            <img src="../../static/images/right-round-xxl (1).png"
+                                 style="height: 4%;width: 4%; float:right; "
+                                 id="Page-Transition1" onClick="hide('page1'); show('page2');">
+                        </div>
+                        <div class="cls2 container contact-row" id='page2'
+                             style="width: 80%; margin-left: 10%; display: none;">
+                            <div class="form-group">
+                                <form:input type="text" class="form-control wow fadeInUp"
+                                            placeholder="Email" path="userEmail"/>
+                            </div>
+                            <div class="form-group">
+                                <form:input type="text" class="form-control wow fadeInUp"
+                                            placeholder="Phone" path="userPhone"/>
+                            </div>
+                            <div class="form-group">
+                                <form:input type="text" class="form-control wow fadeInUp"
+                                            placeholder="University Short Name" path="universityShortName"/>
+                            </div>
+                            <div class="form-group">
+                                <form:input type="text" class="form-control wow fadeInUp"
+                                            placeholder="University Long Name" path="universityLongName"/>
+                            </div>
+                                <%--</form:form>--%>
+                            <img src="../../static/images/right-round-xxl (1).png"
+                                 style="height: 4%;width: 4%; float:right;"
+                                 id="Page-Transition2" onClick="hide('page2'); show('page3');">
+                        </div>
+                        <div class="cls3 container contact-row" id="page3"
+                             style="width: 80%; margin-left: 10%; display: none;">
+                            <div class="form-group">
+                                <form:input type="text" class="form-control wow fadeInUp"
+                                            placeholder="Study Years" path="universityStudyYears"/>
+                            </div>
 
-
-                <!-- /.address and contact -->
-                <%--<div class="col-sm-5 contact-left wow fadeInUp">--%>
-                <%----%>
-                <%--<ul class="ul-address" style="margin-top: 0px;">--%>
-                <%--<li><i class="pe-7s-map-marker"></i>Strada Mihail Kogalniceanu</br>--%>
-                <%--Cluj Napoca 4000--%>
-                <%--</li>--%>
-                <%--<li><i class="pe-7s-phone"></i>+1 (123) 456-7890</br>--%>
-                <%--0264 405 300--%>
-                <%--</li>--%>
-                <%--<li><i class="pe-7s-mail"></i><a--%>
-                <%--href="mailto:info@yoursite.com">info@yoursite.com</a></li>--%>
-                <%--<li><i class="pe-7s-look"></i><a href="#">www.yoursite.com</a></li>--%>
-                <%--</ul>--%>
-                <%----%>
-                <%--</div>--%>
-
-                <!-- /.contact form -->
-                <div class="container contact-row">
-                    <form:form method="POST" action="newuser" modelAttribute="admin" id="contact-form" class="form-horizontal">
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="Username" path="username"/>
+                            <div class="form-group">
+                                <form:input type="text" class="form-control wow fadeInUp"
+                                            placeholder="City" path="universityCity"/>
+                            </div>
+                            <div class="form-group">
+                                <form:input type="text" class="form-control wow fadeInUp"
+                                            placeholder="Address" path="universityAddress"/>
+                            </div>
+                            <div class="form-group">
+                                <form:input type="text" name="Phone" class="form-control wow fadeInUp"
+                                            placeholder="Phone" path="universityPhone"/>
+                            </div>
+                            <div class="form-group">
+                                <input style="width: 20%; margin-left: 38%; margin-top: 5%;" type="submit"
+                                       class="btn-primary wow fadeInUp" value="Submit" name="REGISTER"/>
+                            </div>
+                            <img src="../../static/images/right-round-xxl (1).png"
+                                 style="height: 4%;width: 4%; float:right;"
+                                 id="Page-Transition3" onClick="hide('page3'); show('page1');">
                         </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="First Name" path="userFirstName"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="Last Name" path="userLastName"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="Password" path="userPassword"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="Email" path="userEmail"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="Phone" path="userPhone"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" name="Photo link" class="form-control wow fadeInUp"
-                                        placeholder="Photo link" path="userPhotoLink"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="University Short Name" path="universityShortName"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="University Long Name" path="universityLongName"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="Study Years" path="universityStudyYears"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="City" path="universityCity"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" class="form-control wow fadeInUp"
-                                   placeholder="Address" path="universityAddress"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" name="Phone" class="form-control wow fadeInUp"
-                                   placeholder="Phone" path="universityPhone"/>
-                        </div>
-                        <div class="form-group">
-                            <form:input type="text" name="ScheduleLink" class="form-control wow fadeInUp"
-                                        placeholder="Schedule Link" path="universityScheduleLink"/>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-success wow fadeInUp" value="Submit" name="REGISTER"/>
-                        </div>
+                    </div>
                     </form:form>
                 </div>
             </div>
@@ -377,14 +404,4 @@
     new WOW().init();
 </script>
 </body>
-<!-- Chat initializer -->
-<script>
-    converse.initialize({
-        bosh_service_url: 'https://conversejs.org/http-bind/',
-        show_controlbox_by_default: true,
-        allow_registration: false,
-        locked_domain: '007jabber.com',
-        hide_muc_server: true
-    });
-</script>
 </html>
