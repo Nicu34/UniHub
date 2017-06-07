@@ -61,6 +61,15 @@
                         <p>Email :<label id="email">${userDetails.email}</label></p>
                         <p>Role :<label id="position">${userDetails.profileEnum}</label></p>
                     </div>
+                    <a href="<c:url value="/logout"/>" class="logg">
+                        <img class="photo" src="../../static/images/logout-512 (1).png"
+                             style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
+                    </a>
+                    <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
+                    <a href="/" class="logg">
+                        <img class="photo" src="../../static/images/home-5-xxl.png"
+                             style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
+                    </a>
                 </div>
                 <div class="col-md-5">
                     <ul class="ul-address" style="margin-top: 0px;">

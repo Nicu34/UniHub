@@ -65,6 +65,15 @@
                         <p>Phone: ${userDetails.phone}</p>
                     </div>
                     <p><a href="<c:url value='/view-university-${student.user.university.id}'/>">University: ${userDetails.university.longName}</a></p>
+                    <a href="<c:url value="/logout"/>" class="logg">
+                        <img class="photo" src="../../static/images/logout-512 (1).png"
+                             style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
+                    </a>
+                    <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
+                    <a href="/" class="logg">
+                        <img class="photo" src="../../static/images/home-5-xxl.png"
+                             style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
+                    </a>
                 </div>
 
                 <!--/.phone image-->
@@ -163,11 +172,11 @@
                                     <td>${course.studyYear.year}</td>
                                     <td>
                                         <sec:authorize access="hasRole('TEACHER')">
-                                            <a href="<c:url value='/delete-course-${course.name}' />"
+                                            <a href="<c:url value='/delete-course-${course.id}' />"
                                                class="clsActionButton">Delete</a>
                                         </sec:authorize>
                                         <sec:authorize access="hasRole('TEACHER')">
-                                            <a href="<c:url value='/view-course-${course.name}' />"
+                                            <a href="<c:url value='/view-course-${course.id}' />"
                                                class="clsActionButton">View</a>
                                         </sec:authorize>
                                     </td>
