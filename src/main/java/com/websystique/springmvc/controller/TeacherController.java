@@ -2,6 +2,7 @@ package com.websystique.springmvc.controller;
 
 import com.websystique.springmvc.model.Teacher;
 import com.websystique.springmvc.service.TeacherService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class TeacherController {
 
+    @Autowired
     private TeacherService teacherService;
 
     /**

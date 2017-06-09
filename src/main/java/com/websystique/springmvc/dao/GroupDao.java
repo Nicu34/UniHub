@@ -57,7 +57,6 @@ public class GroupDao extends AbstractDao<Integer, SchoolGroup> {
         schoolGroupList.forEach(schoolGroup -> Hibernate.initialize(schoolGroup.getStudyYear()));
 
         return schoolGroupList;
-
     }
 
     /**

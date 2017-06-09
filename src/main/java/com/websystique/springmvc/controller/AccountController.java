@@ -84,7 +84,6 @@ public class AccountController {
 		model.addAttribute("userDetails", userDetails);
 		model.addAttribute("loggedinuser", userName);
 		model.addAttribute("studyYears", studyYearService.findAll(university));
-
 		if (userDetails.getProfileEnum() == ProfileEnum.ADMIN) {
 			model.addAttribute("adminUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.ADMIN).collect(Collectors.toSet()));
 			model.addAttribute("studentUsers", users.stream().filter(user -> user.getProfileEnum() == ProfileEnum.STUDENT).collect(Collectors.toSet()));
@@ -114,6 +113,7 @@ public class AccountController {
 			return "teacher";
 		}
 	}
+
 
 	/**
 	 * Creates a temporary account and send an email to invited users for admin role.

@@ -34,6 +34,11 @@
                 });
             });
     </script>
+
+
+    <!-- Chat ref -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">
+    <script src="https://cdn.conversejs.org/dist/converse.min.js"></script>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -64,21 +69,25 @@
                         <p>E-mail: ${userDetails.email}</p>
                         <p>Phone: ${userDetails.phone}</p>
                     </div>
-                    <p><a href="<c:url value='/view-university-${student.user.university.id}'/>">University: ${userDetails.university.longName}</a></p>
-                    <a href="<c:url value="/logout"/>" class="logg">
-                        <img class="photo" src="../../static/images/logout-512 (1).png"
-                             style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
-                    </a>
-                    <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
-                    <a href="/" class="logg">
-                        <img class="photo" src="../../static/images/home-5-xxl.png"
-                             style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
-                    </a>
+                    <p>
+                        <a href="<c:url value='/view-university-${student.user.university.id}'/>">University: ${userDetails.university.longName}</a>
+                    </p>
                 </div>
+                <a href="<c:url value="/logout"/>" class="logg">
+                    <img class="photo" src="../../static/images/logout-512 (1).png"
+                         style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
+                </a>
+                <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
+                <a href="/" class="logg">
+                    <img class="photo" src="../../static/images/home-5-xxl.png"
+                         style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
+                </a>
+                <p style="float:right;margin-top: 6%;margin-right: -4%;">Home</p>
 
                 <!--/.phone image-->
                 <div class="col-md-5">
-                    <img src=${userDetails.photoLink} alt="phone" style="margin-top: 20%; width: 50%; height: 80%;"
+                    <img src=${userDetails.photoLink} alt="Unavailable"
+                         style="margin-top: 20%; width: 50%; height: 80%;"
                          class="header-phone img-responsive wow fadeInRight">
                 </div>
             </div>
@@ -112,14 +121,14 @@
 </div>
 
 <!--/.feature0 section-->
-<div id="feature1" style="padding-top:60px;padding-bottom: 60px;">
+<div id="feature1" style="padding-top:60px;padding-bottom: 60px;padding-left: -10px; margin-left: -60px;">
     <div class="container">
-        <div class="row row-feat" style="padding-top:0px">
+        <div class="row row-feat" style="padding-top:0px; margin-left: 5%;">
             <div class="col-md-6 text-center">
 
                 <!-- /.feature image -->
-                <div class="signup-header wow fadeInUp">
-                    <h3 class="form-title text-center">Invite people to create admin account</h3>
+                <div class="signup-header wow fadeInUp" style="margin-left: 0; padding-left: 0;">
+                    <h3 class="form-title text-center">Create course</h3>
                     <form:form method="POST" class="form-header" action="addCourse" role="form"
                                modelAttribute="courseDto">
                         <div class="form-group">
@@ -149,10 +158,10 @@
 
             <div class="col-md-6 ">
                 <!-- /.feature 1 -->
-                <div class="fadeInRight" style="width:100%;">
+                <div class="fadeInRight" style="width:30%;">
                     <h3 class="form-title text-center">Owned courses</h3>
                     <i class="pe-7s-notebook pe-5x pe-va wow fadeInUp"></i>
-                    <div class="inner" style="width:100%;">
+                    <div class="inner" style="width:50%;">
                         <table style="margin-top:0px">
                             <thead>
                             <tr>
@@ -171,8 +180,8 @@
                                     <td><a href="${course.courseMaterialsLink}">Materials Link</a></td>
                                     <td>${course.studyYear.year}</td>
                                     <td>
-                                            <a href="<c:url value='/view-course-${course.id}' />"
-                                               class="clsActionButton">View</a>
+                                        <a href="<c:url value='/view-course-${course.id}' />"
+                                           class="clsActionButton">View</a>
                                     </td>
                                 </tr>
                             </c:forEach>
@@ -190,12 +199,16 @@
     <div class="container">
         <div class="row">
             <!-- /.feature content -->
+            <br><br>
             <div class="col-md-6 wow fadeInLeft">
                 <div class="btn-section"><a href="${schedule}"
-                                            style="margin-left: 120px;" class="btn-default">Teacher Schedule</a>
+                                            style="margin-left: 120px; margin-bottom: 5%; margin-top: 10%;"
+                                            class="btn-default">Teacher Schedule</a>
                 </div>
+                <br>
                 <div class="btn-section"><a href="${materials}"
-                                            style="margin-left: 120px; margin-top: 20px" class="btn-default">Teacher Public Files</a>
+                                            style="margin-left: 110px; margin-top: 20px" class="btn-default">Teacher
+                    Public Files</a>
                 </div>
             </div>
             <!-- /.feature image -->
@@ -255,4 +268,14 @@
     new WOW().init();
 </script>
 </body>
+<!-- Chat initializer -->
+<script>
+    converse.initialize({
+        bosh_service_url: 'https://conversejs.org/http-bind/',
+        show_controlbox_by_default: true,
+        allow_registration: false,
+        locked_domain: '007jabber.com',
+        hide_muc_server: true
+    });
+</script>
 </html>

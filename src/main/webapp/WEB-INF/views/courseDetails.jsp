@@ -61,20 +61,23 @@
                         Year: ${course.studyYear.year}
                     </h2>
                     <p><a href="<c:url value='${course.syllabus}'/>">Syllabus</a></p>
-                    <p><a href="<c:url value='/view-teacher-${course.teacher.id}'/>">Teacher: ${course.teacher.user.firstName} ${course.teacher.user.lastName} </a></p>
-                    <a href="<c:url value="/logout"/>" class="logg">
-                        <img class="photo" src="../../static/images/logout-512 (1).png"
-                             style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
-                    </a>
-                    <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
-                    <a href="/" class="logg">
-                        <img class="photo" src="../../static/images/home-5-xxl.png"
-                             style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
-                    </a>
+                    <p>
+                        <a href="<c:url value='/view-teacher-${course.teacher.id}'/>">Teacher: ${course.teacher.user.firstName} ${course.teacher.user.lastName} </a>
+                    </p>
                 </div>
+                <a href="<c:url value="/logout"/>" class="logg">
+                    <img class="photo" src="../../static/images/logout-512 (1).png"
+                         style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
+                </a>
+                <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
+                <a href="/" class="logg">
+                    <img class="photo" src="../../static/images/home-5-xxl.png"
+                         style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
+                </a>
+                <p style="float:right;margin-top: 6%;margin-right: -4%;">Home</p>
                 <!--/.phone image-->
                 <div class="col-md-5">
-                    <img src="http://cfile4.uf.tistory.com/image/262C6F34580573DF079220" style="margin-top: 20%; width: 50%; height: 80%;"
+                    <img src="../../static/images/book_PNG2120.png" style="margin-top: 20%; width: 70%; height: 50%;"
                          class="header-phone img-responsive wow fadeInRight">
                 </div>
             </div>

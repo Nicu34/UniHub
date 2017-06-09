@@ -9,7 +9,7 @@
 <head>
 
     <!-- /.website title -->
-    <title>Backyard App Landing Page</title>
+    <title>Group</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
     <!-- CSS Files -->
@@ -60,20 +60,22 @@
                     <h2 class="wow fadeInLeft" style="color: white">
                         Year: ${group.studyYear.year}
                     </h2>
-                    <a href="<c:url value="/logout"/>" class="logg">
-                        <img class="photo" src="../../static/images/logout-512 (1).png"
-                             style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
-                    </a>
-                    <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
-                    <a href="/" class="logg">
-                        <img class="photo" src="../../static/images/home-5-xxl.png"
-                             style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
-                    </a>
                 </div>
+                <a href="<c:url value="/logout"/>" class="logg">
+                    <img class="photo" src="../../static/images/logout-512 (1).png"
+                         style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
+                </a>
+                <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
+                <a href="/" class="logg">
+                    <img class="photo" src="../../static/images/home-5-xxl.png"
+                         style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
+                </a>
+                <p style="float:right;margin-top: 6%;margin-right: -4%;">Home</p>
 
                 <!--/.phone image-->
                 <div class="col-md-5">
-                    <img src="http://cfile4.uf.tistory.com/image/262C6F34580573DF079220" style="margin-top: 20%; width: 50%; height: 80%;"
+                    <img src="../../static/images/festivitati-de-absolvire.png"
+                         style="margin-top: 20%; width: 50%; height: 80%;"
                          class="header-phone img-responsive wow fadeInRight">
                 </div>
             </div>
@@ -132,8 +134,8 @@
                                     <td>${student.user.email}</td>
                                     <td>${student.user.phone}</td>
                                     <td>
-                                            <a href="<c:url value='/view-student-${student.id}' />"
-                                               class="clsActionButton">View</a>
+                                        <a href="<c:url value='/view-student-${student.id}' />"
+                                           class="clsActionButton">View</a>
                                     </td>
                                 </tr>
                             </c:forEach>

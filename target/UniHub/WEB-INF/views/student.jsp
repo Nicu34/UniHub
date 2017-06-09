@@ -47,6 +47,10 @@
             return currentCourse;
         }
     </script>
+
+    <!-- Chat ref -->
+    <link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/css/converse.min.css">
+    <script src="https://cdn.conversejs.org/dist/converse.min.js"></script>
 </head>
 
 <body data-spy="scroll" data-target="#navbar-scroll">
@@ -89,7 +93,7 @@
                 <p style="float:right;margin-top: 6%;margin-right: -4%;">Home</p>
                 <!--/.phone image-->
                 <div class="col-md-5">
-                    <img src="${userDetails.photoLink}" alt="phone" style="margin-top: 150px;"
+                    <img src="${userDetails.photoLink}" alt="Unavailable" style="margin-top: 150px;"
                          class="header-phone img-responsive wow fadeInRight">
                 </div>
             </div>
@@ -235,4 +239,14 @@
     new WOW().init();
 </script>
 </body>
+<!-- Chat initializer -->
+<script>
+    converse.initialize({
+        bosh_service_url: 'https://conversejs.org/http-bind/',
+        show_controlbox_by_default: true,
+        allow_registration: false,
+        locked_domain: '007jabber.com',
+        hide_muc_server: true
+    });
+</script>
 </html>

@@ -69,19 +69,21 @@
                     </p>
                     <p><a href="<c:url value='${teacher.scheduleLink}'/>">Schedule</a></p>
                     <p><a href="<c:url value='${teacher.filesLink}'/>">Files</a></p>
-                    <a href="<c:url value="/logout"/>" class="logg">
-                        <img class="photo" src="../../static/images/logout-512 (1).png"
-                             style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
-                    </a>
-                    <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
-                    <a href="/" class="logg">
-                        <img class="photo" src="../../static/images/home-5-xxl.png"
-                             style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
-                    </a>
                 </div>
+                <a href="<c:url value="/logout"/>" class="logg">
+                    <img class="photo" src="../../static/images/logout-512 (1).png"
+                         style="float:right; width: 2%; height: 2%; margin-top: 2%; margin-right: 2%;">
+                </a>
+                <p style="float:right; margin-right: 2%;margin-top: 2%;">Log out</p>
+                <a href="/" class="logg">
+                    <img class="photo" src="../../static/images/home-5-xxl.png"
+                         style="float:right; width: 2%; height: 2%; margin-top: 6%; margin-right: -8%;">
+                </a>
+                <p style="float:right;margin-top: 6%;margin-right: -4%;">Home</p>
                 <!--/.phone image-->
                 <div class="col-md-5">
-                    <img src=${teacher.user.photoLink} alt="phone" style="margin-top: 20%; width: 50%; height: 80%;"
+                    <img src=${teacher.user.photoLink} alt="Unavailable"
+                         style="margin-top: 20%; width: 50%; height: 80%;"
                          class="header-phone img-responsive wow fadeInRight">
                 </div>
             </div>
@@ -154,54 +156,55 @@
             </div>
         </div>
     </div>
+</div>
 
-    <!-- /.footer -->
-    <footer id="footer">
-        <div class="container">
-            <div class="col-sm-4 col-sm-offset-4">
-                <!-- /.social links -->
-                <div class="social text-center">
-                    <ul>
-                        <li><a class="wow fadeInUp" href="https://twitter.com/">
-                            <img class="fa fa-twitter"
-                                 src="../../static/images/twitter-512.png"
-                                 style="width: 14px; height: 14px; margin-bottom: 4px;"/></a></li>
-                        <li><a class="wow fadeInUp" href="https://www.facebook.com/UniHubb/" data-wow-delay="0.2s">
-                            <img src="../../static/images/4c25d18059353799aff91dcdd8f19bb4.png"
-                                 style="width: 19px; height: 20px; margin-bottom: 5px;"
-                                 class="fa fa-facebook"/></a></li>
-                        <li><a class="wow fadeInUp" href="https://plus.google.com/" data-wow-delay="0.4s">
-                            <img src="../../static/images/google-plus-google-icon.png"
-                                 style="width: 15px; height: 15px; margin-bottom: 5px;"
-                                 class="fa fa-google-plus"/></a></li>
-                        <li><a class="wow fadeInUp" href="https://instagram.com/" data-wow-delay="0.6s">
-                            <img src="../../static/images/824273_original_512x512.png"
-                                 style="width: 30px; height: 28px; margin-bottom: 11px;"
-                                 class="fa fa-instagram"/></a></li>
-                    </ul>
-                </div>
-                <div class="text-center wow fadeInUp" style="font-size: 14px;">Copyright UniHub 2017</div>
-                <a href="#" class="scrollToTop"><i class="pe-7s-up-arrow pe-va"></i></a>
+<!-- /.footer -->
+<footer id="footer">
+    <div class="container">
+        <div class="col-sm-4 col-sm-offset-4">
+            <!-- /.social links -->
+            <div class="social text-center">
+                <ul>
+                    <li><a class="wow fadeInUp" href="https://twitter.com/">
+                        <img class="fa fa-twitter"
+                             src="../../static/images/twitter-512.png"
+                             style="width: 14px; height: 14px; margin-bottom: 4px;"/></a></li>
+                    <li><a class="wow fadeInUp" href="https://www.facebook.com/UniHubb/" data-wow-delay="0.2s">
+                        <img src="../../static/images/4c25d18059353799aff91dcdd8f19bb4.png"
+                             style="width: 19px; height: 20px; margin-bottom: 5px;"
+                             class="fa fa-facebook"/></a></li>
+                    <li><a class="wow fadeInUp" href="https://plus.google.com/" data-wow-delay="0.4s">
+                        <img src="../../static/images/google-plus-google-icon.png"
+                             style="width: 15px; height: 15px; margin-bottom: 5px;"
+                             class="fa fa-google-plus"/></a></li>
+                    <li><a class="wow fadeInUp" href="https://instagram.com/" data-wow-delay="0.6s">
+                        <img src="../../static/images/824273_original_512x512.png"
+                             style="width: 30px; height: 28px; margin-bottom: 11px;"
+                             class="fa fa-instagram"/></a></li>
+                </ul>
             </div>
+            <div class="text-center wow fadeInUp" style="font-size: 14px;">Copyright UniHub 2017</div>
+            <a href="#" class="scrollToTop"><i class="pe-7s-up-arrow pe-va"></i></a>
         </div>
-    </footer>
+    </div>
+</footer>
 
-    <!-- /.javascript files -->
-    <script src="../../static/js/jquery.js"></script>
-    <script src="../../static/js/bootstrap.min.js"></script>
-    <script src="../../static/js/custom.js"></script>
-    <script src="../../static/js/jquery.sticky.js"></script>
-    <script src="../../static/js/wow.min.js"></script>
-    <script src="../../static/js/owl.carousel.min.js"></script>
-    <script src="../../static/js/ekko-lightbox-min.js"></script>
-    <script type="text/javascript">
-        $(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
-            event.preventDefault();
-            $(this).ekkoLightbox();
-        });
-    </script>
-    <script>
-        new WOW().init();
-    </script>
+<!-- /.javascript files -->
+<script src="../../static/js/jquery.js"></script>
+<script src="../../static/js/bootstrap.min.js"></script>
+<script src="../../static/js/custom.js"></script>
+<script src="../../static/js/jquery.sticky.js"></script>
+<script src="../../static/js/wow.min.js"></script>
+<script src="../../static/js/owl.carousel.min.js"></script>
+<script src="../../static/js/ekko-lightbox-min.js"></script>
+<script type="text/javascript">
+    $(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+</script>
+<script>
+    new WOW().init();
+</script>
 </body>
 </html>
