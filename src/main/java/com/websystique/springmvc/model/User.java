@@ -3,7 +3,6 @@ package com.websystique.springmvc.model;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -27,24 +26,6 @@ public class User implements Serializable{
 	@NotEmpty
 	@Column(nullable=false)
 	private String lastName;
-
-	@NotEmpty
-	@Column(nullable=false)
-	private String email;
-
-	@NotEmpty
-	@Column(nullable=false)
-	private String phone;
-
-	@Column
-	private String photoLink;
-
-	@Column
-	@NotNull
-	private ProfileEnum profileEnum = ProfileEnum.ADMIN;
-
-	@ManyToOne(cascade = CascadeType.MERGE)
-	private University university;
 
 	public Integer getId() {
 		return id;
@@ -86,14 +67,6 @@ public class User implements Serializable{
 		this.lastName = lastName;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -132,40 +105,6 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", ssoId=" + ssoId + ", password=" + password
-				+ ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", email=" + email + "]";
-	}
-
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public University getUniversity() {
-		return university;
-	}
-
-	public void setUniversity(University university) {
-		this.university = university;
-	}
-
-	public String getPhotoLink() {
-		return photoLink;
-	}
-
-	public void setPhotoLink(String photoLink) {
-		this.photoLink = photoLink;
-	}
-
-	public ProfileEnum getProfileEnum() {
-		return profileEnum;
-	}
-
-	public void setProfileEnum(ProfileEnum profileEnum) {
-		this.profileEnum = profileEnum;
+				+ ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
 }

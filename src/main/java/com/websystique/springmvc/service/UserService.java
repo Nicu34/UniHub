@@ -1,7 +1,6 @@
 package com.websystique.springmvc.service;
 
 import com.websystique.springmvc.dao.UserDao;
-import com.websystique.springmvc.model.University;
 import com.websystique.springmvc.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,11 +48,10 @@ public class UserService {
 
 	/**
 	 * Gets all users by given university
-	 * @param university
 	 * @return list of users with above criteria
 	 */
-	public List<User> findAllUsers(University university) {
-		return userDao.findAllUsers(university);
+	public List<User> findAllUsers() {
+		return userDao.findAllUsers();
 	}
 
 	/**
