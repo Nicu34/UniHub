@@ -11,28 +11,22 @@
 
         <div class="col-md-12">
             <div class="">
-                <a class="btn btn-primary" href=<c:url value='/addDocument'/>>Add Document</a>
-                <a class="btn btn-primary" href=<c:url value='/addKeyword'/>>Add Keyword</a>
-                <a class="btn btn-primary" href=<c:url value='/addTemplate'/>>Add Template</a>
-                <a class="btn btn-primary" href=<c:url value='/templates'/>>View templates</a>
-                <a class="btn btn-primary" href=<c:url value='/keywords'/>>View keywords</a>
+                <a  class="btn btn-primary" href=<c:url value='/addKeyword'/>>Add Keyword</a>
             </div>
             <div class="table-responsive">
 
                 <table id="mytable" class="table table-bordered" style="margin:10px;width:60%;">
                     <thead>
                     <th>Id</th>
-                    <th>Title</th>
-                    <th>Actions</th>
+                    <th>Key</th>
+                    <th>Valye</th>
                     </thead>
                     <tbody>
-                    <c:forEach var="document" items="${documents}">
+                    <c:forEach var="keyword" items="${keywords}">
                         <tr>
-                            <td>${document.id}</td>
-                            <td>${document.title}</td>
-                            <td>
-                                <a class="btn btn-primary" href=<c:url value='/viewDocument-${document.id}'/>>View document</a>
-                            </td>
+                            <td>${keyword.id}</td>
+                            <td>${keyword.myKey}</td>
+                            <td>${keyword.value}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

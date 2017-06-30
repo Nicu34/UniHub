@@ -19,10 +19,10 @@ public class Template implements Serializable {
     private String textContent;
 
     @Column
-    private Boolean isPrivate;
+    private Integer isPrivate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", insertable = false, updatable = false)
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(referencedColumnName = "id")
     private Document document;
 
     public Template() {
@@ -52,12 +52,12 @@ public class Template implements Serializable {
         this.textContent = textContent;
     }
 
-    public Boolean getPrivate() {
+    public Integer getIsPrivate() {
         return isPrivate;
     }
 
-    public void setPrivate(Boolean aPrivate) {
-        isPrivate = aPrivate;
+    public void setIsPrivate(Integer isPrivate) {
+        this.isPrivate = isPrivate;
     }
 
     @Override
@@ -81,5 +81,13 @@ public class Template implements Serializable {
         result = 31 * result + (textContent != null ? textContent.hashCode() : 0);
         result = 31 * result + (isPrivate != null ? isPrivate.hashCode() : 0);
         return result;
+    }
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
     }
 }

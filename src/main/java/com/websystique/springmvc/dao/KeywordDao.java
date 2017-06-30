@@ -18,7 +18,7 @@ public class KeywordDao extends AbstractDao<Integer, Keyword> {
 
     @SuppressWarnings("unchecked")
     public List<Keyword> findAll() {
-        Criteria criteria = createEntityCriteria().addOrder(Order.asc("key"));
+        Criteria criteria = createEntityCriteria().addOrder(Order.asc("myKey"));
         criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
         return (List<Keyword>) criteria.list();

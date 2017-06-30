@@ -2,6 +2,7 @@ package com.websystique.springmvc.dao;
 
 import com.websystique.springmvc.model.Document;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,13 @@ import java.util.List;
 public class DocumentDao extends AbstractDao<Integer, Document> {
 
     public Document findById(int id) {
-        return getByKey(id);
+        Document document = getByKey(id);
+
+        if (document != null) {
+            Hibernate.initialize(document.getTemplatesList());
+        }
+
+        return document;
     }
 
     @SuppressWarnings("unchecked")

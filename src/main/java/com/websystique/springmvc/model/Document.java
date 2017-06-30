@@ -18,7 +18,7 @@ public class Document implements Serializable {
     @Column
     private String title;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "document")
+    @OneToMany(mappedBy = "document")
     private List<Template> templatesList = new ArrayList<>();
 
     public Document() {

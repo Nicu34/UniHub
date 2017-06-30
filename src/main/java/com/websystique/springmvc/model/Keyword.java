@@ -14,7 +14,7 @@ public class Keyword implements Serializable {
     private Integer id;
 
     @Column(unique = true)
-    private String key;
+    private String myKey;
 
     @Column
     private String value;
@@ -30,12 +30,12 @@ public class Keyword implements Serializable {
         this.id = id;
     }
 
-    public String getKey() {
-        return key;
+    public String getMyKey() {
+        return myKey;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setMyKey(String myKey) {
+        this.myKey = myKey;
     }
 
     public String getValue() {
@@ -54,14 +54,14 @@ public class Keyword implements Serializable {
         Keyword keyword = (Keyword) o;
 
         if (id != null ? !id.equals(keyword.id) : keyword.id != null) return false;
-        if (key != null ? !key.equals(keyword.key) : keyword.key != null) return false;
+        if (myKey != null ? !myKey.equals(keyword.myKey) : keyword.myKey != null) return false;
         return value != null ? value.equals(keyword.value) : keyword.value == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (key != null ? key.hashCode() : 0);
+        result = 31 * result + (myKey != null ? myKey.hashCode() : 0);
         result = 31 * result + (value != null ? value.hashCode() : 0);
         return result;
     }
